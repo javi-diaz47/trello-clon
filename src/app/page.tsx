@@ -1,9 +1,15 @@
+import { Board } from '@/components/Board'
+import { List } from '@/components/List'
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-light dark:bg-dark">
-      <h2 className="text-4xl font-bold text-dark dark:text-light">
-        Trello-Clon
-      </h2>
+    <main className="min-h-screen pl-8 bg-light-white text-text dark:bg-dark-gray dark:text-light-white ">
+      <h2 className="text-4xl font-bold  ">Trello-Clon</h2>
+
+      <Board>
+        <List id="0" name="To Do" />
+        <List id="0" name="To Do" />
+      </Board>
     </main>
   )
 }
