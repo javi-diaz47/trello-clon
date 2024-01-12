@@ -7,11 +7,21 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    // fontSize: {
+    //   sm: ['0.625rem', { lineHeight: '7.5rem' }],
+    //   base: ['0.875rem', { lineHeight: '7.5rem' }],
+    //   xl: ['1.125rem', { lineHeight: '7.5rem' }],
+    //   '2xl': ['1.5rem', { lineHeight: '7.5rem' }],
+    //   '3xl': ['3.563rem', { lineHeight: '7.5rem' }],
+    //   '4xl': ['4.75rem', { lineHeight: '7.5rem' }],
+    //   '5xl': ['6.313rem', { lineHeight: '7.5rem' }],
+    // },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        'light-white': '#f3effe',
+        'dark-white': '#DFD4FC',
+        'dark-gray': '#121212',
+        'light-gray': '#222222',
       },
     },
   },
