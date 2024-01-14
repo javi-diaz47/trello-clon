@@ -1,3 +1,9 @@
+export interface Board {
+  id: string
+  name: string
+  lists: List[]
+}
+
 export interface List {
   id: string
   name: string

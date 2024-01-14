@@ -1,10 +1,10 @@
-import { type List } from '@/app/types/app'
+import { type List } from '@/types/app'
 import { Button } from './Button'
 import { Card } from './Card'
 
 function List({ id, name, cards }: List) {
   return (
-    <div className="border rounded-3xl  border-neutral-700 w-full max-w-sm min-h-48">
+    <div className="border rounded-3xl  border-neutral-700 w-full max-w-xs min-h-48">
       <header className="px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0  ">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-light-white rounded-full"></div>

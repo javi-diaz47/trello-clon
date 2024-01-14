@@ -1,4 +1,4 @@
-import { type Card } from '@/app/types/app'
+import { type Card } from '@/types/app'
 
 function Card({ title, def, labels, activity }: Card) {
   return (
