@@ -1,48 +1,56 @@
 import { type List } from '@/types/app'
 import { Button } from './Button'
 import { Card } from './Card'
+import { useBoards } from '@/Hooks/useBoards'
+import { DotsIcon } from '@/icons/Dots'
+import { PlusIcon } from '@/icons/PlusIcon'
+import { useState } from 'react'
 
-function List({ id, name, cards }: List) {
+interface ListWithBoard extends List {
+  boardId: string
+}
+
+function List({ id, name, cards, boardId }: ListWithBoard) {
+  const { removeList } = useBoards()
+
+  const handleRemoveList = () => {
+    removeList({ boardId, listId: id })
+  }
+
+  const [onMenu, setOnMenu] = useState(false)
+
+  const handleOnMenu = () => {
+    setOnMenu(!onMenu)
+  }
+
   return (
     <div className="border rounded-3xl  border-neutral-700 w-full max-w-xs min-h-48">
-      <header className="px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0  ">
+      <header className="relative px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0  ">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-light-white rounded-full"></div>
           <h2 className="text-lg font-bold">{name}</h2>
         </div>
-        <div className="flex gap-4">
-          <Button>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            </svg>
-          </Button>
-          <Button>
-            <svg
-              className="rounded-full bg-cyan-900 bg-opacity-75 text-sky-400"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M12 5l0 14" />
-              <path d="M5 12l14 0" />
-            </svg>
-          </Button>
+        <div className="flex gap-4 ">
+          <button onClick={handleOnMenu}>
+            <DotsIcon />
+          </button>
+          <button>
+            <PlusIcon />
+          </button>
+        </div>
+
+        <div
+          className={`list-menu ${
+            onMenu ? 'visible' : 'hidden'
+          } absolute bg-dark-gray rounded-lg p-4 z-10 top-10 right-16`}>
+          <ul className="list-none grid gap-2">
+            <li className="hover:bg-light-gray px-2 rounded-md">
+              <button onClick={handleRemoveList}>Remove</button>
+            </li>
+            <li className="hover:bg-light-gray px-2 rounded-md">
+              <button>Sort by date</button>
+            </li>
+          </ul>
         </div>
       </header>
       <ul className="px-4 py-4 h-full flex flex-col gap-4">

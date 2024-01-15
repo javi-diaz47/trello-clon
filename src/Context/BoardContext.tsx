@@ -10,9 +10,15 @@ interface AddListParams {
   listName: string
 }
 
+interface RemoveListParams {
+  boardId: string
+  listId: string
+}
+
 interface BoardContext {
   Boards: Board[]
   addList: ({ boardId, listName }: AddListParams) => void
+  removeList: ({ boardId, listId }: RemoveListParams) => void
 }
 
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
@@ -38,11 +44,24 @@ export const BoardContextProvider = ({
     setBoard(newBoards)
   }
 
+  const removeList = ({ boardId, listId }: RemoveListParams) => {
+    const boardIndex = Boards.findIndex((board) => board.id === boardId)
+
+    const newBoards = [...Boards]
+
+    newBoards[boardIndex].lists = newBoards[boardIndex].lists.filter(
+      (list) => list.id !== listId
+    )
+
+    setBoard(newBoards)
+  }
+
   return (
     <BoardContext.Provider
       value={{
         Boards,
         addList,
+        removeList,
       }}>
       {children}
     </BoardContext.Provider>

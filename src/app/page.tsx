@@ -14,7 +14,7 @@ export default function Home() {
 
       <Board>
         {Boards[0].lists.map((list) => (
-          <List key={list.id} {...list} />
+          <List key={list.id} {...list} boardId={Boards[0].id} />
         ))}
 
         <ButtonAddList boardId={Boards[0].id} />

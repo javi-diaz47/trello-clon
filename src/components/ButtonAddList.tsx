@@ -12,6 +12,8 @@ function ButtonAddList({ boardId }: { boardId: string }) {
       listName: string
     }
 
+    if (!listName) return
+
     handleOnAddList()
     addList({ boardId, listName })
   }
@@ -23,13 +25,18 @@ function ButtonAddList({ boardId }: { boardId: string }) {
   const [onAddList, setOnAddList] = useState(false)
 
   return (
-    <div className="w-full max-w-xs h-fit  flex justify-between bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border-2  border-neutral-700">
+    <div className="w-full max-w-xs h-fit flex justify-between bg-gray-300 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border-2  border-neutral-700">
       {onAddList ? (
         <form
           onSubmit={handleAddList}
-          className="flex flex-col gap-2 px-4 py-2">
+          className="flex flex-col gap-2 px-4 py-2 w-full">
           <label>Name</label>
-          <input type="text" name="listName" />
+          <input
+            type="text"
+            name="listName"
+            className="bg-dark-gray rounded-lg px-2 py-1"
+            autoFocus
+          />
           <div className="flex items-center gap-4">
             <button className="rounded-lg p-2 bg-cyan-900 bg-opacity-75 text-sky-400">
               Add list
