@@ -22,9 +22,13 @@ export interface Activity {
 }
 
 export interface Card {
-  id: string
+  id?: string
   title: string
-  def: string
-  labels: Label[]
-  activity: Activity[]
+  def?: string
+  labels?: Label[]
+  activity?: Activity[]
+}
+
+export interface Icon {
+  className?: string
 }

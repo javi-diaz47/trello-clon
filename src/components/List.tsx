@@ -5,6 +5,7 @@ import { useBoards } from '@/Hooks/useBoards'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
 import { useState } from 'react'
+import { ButtonAddCard } from './ButtonAddCard'
 
 interface ListWithBoard extends List {
   boardId: string
@@ -59,6 +60,9 @@ function List({ id, name, cards, boardId }: ListWithBoard) {
             <Card {...card} />
           </li>
         ))}
+        <li>
+          <ButtonAddCard boardId={boardId} listId={id} />
+        </li>
       </ul>
     </div>
   )

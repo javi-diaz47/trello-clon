@@ -2,23 +2,21 @@
 
 import { BOARDS } from '@/mocks/BOARDS'
 import { Board } from '@/types/app'
+import {
+  AddCardParams,
+  AddListParams,
+  RemoveCardParams,
+  RemoveListParams,
+} from '@/types/boardContext'
 import { genUUID } from '@/utils/genUUID'
 import { createContext, useState } from 'react'
 
-interface AddListParams {
-  boardId: string
-  listName: string
-}
-
-interface RemoveListParams {
-  boardId: string
-  listId: string
-}
-
 interface BoardContext {
   Boards: Board[]
-  addList: ({ boardId, listName }: AddListParams) => void
-  removeList: ({ boardId, listId }: RemoveListParams) => void
+  addList: (data: AddListParams) => void
+  removeList: (data: RemoveListParams) => void
+  addCard: (data: AddCardParams) => void
+  removeCard: (data: RemoveCardParams) => void
 }
 
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
@@ -56,12 +54,47 @@ export const BoardContextProvider = ({
     setBoard(newBoards)
   }
 
+  const addCard = ({ boardId, listId, cardTitle }: AddCardParams) => {
+    const boardIndex = Boards.findIndex((board) => board.id === boardId)
+    const listIndex = Boards[boardIndex].lists.findIndex(
+      (list) => list.id === listId
+    )
+
+    const newBoards = [...Boards]
+
+    newBoards[boardIndex].lists[listIndex].cards.push({
+      id: genUUID(),
+      title: cardTitle,
+    })
+
+    console.log('first')
+
+    setBoard(newBoards)
+  }
+
+  const removeCard = ({ boardId, listId }: RemoveListParams) => {
+    const boardIndex = Boards.findIndex((board) => board.id === boardId)
+    const listIndex = Boards[boardIndex].lists.findIndex(
+      (list) => list.id === listId
+    )
+
+    const newBoards = [...Boards]
+
+    newBoards[boardIndex].lists[listIndex].cards = newBoards[boardIndex].lists[
+      listIndex
+    ].cards.filter((list) => list.id !== listId)
+
+    setBoard(newBoards)
+  }
+
   return (
     <BoardContext.Provider
       value={{
         Boards,
         addList,
         removeList,
+        addCard,
+        removeCard,
       }}>
       {children}
     </BoardContext.Provider>

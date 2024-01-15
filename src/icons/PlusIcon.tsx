@@ -1,7 +1,13 @@
-function PlusIcon() {
+import { Icon } from '@/types/app'
+
+function PlusIcon({ className }: Icon) {
+  const DEFAULT_STYLES = 'rounded-full bg-cyan-900 bg-opacity-75 text-sky-400'
+
+  const styles = className ? className : DEFAULT_STYLES
+
   return (
     <svg
-      className="rounded-full bg-cyan-900 bg-opacity-75 text-sky-400"
+      className={styles}
       width="24"
       height="24"
       viewBox="0 0 24 24"

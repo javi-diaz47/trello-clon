@@ -18,7 +18,6 @@ export default function Home() {
         ))}
 
         <ButtonAddList boardId={Boards[0].id} />
-        {/* <List id="0" name="Doing" /> */}
       </Board>
     </main>
   )

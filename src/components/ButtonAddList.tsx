@@ -14,11 +14,11 @@ function ButtonAddList({ boardId }: { boardId: string }) {
 
     if (!listName) return
 
-    handleOnAddList()
+    toggleOnAdd()
     addList({ boardId, listName })
   }
 
-  const handleOnAddList = () => {
+  const toggleOnAdd = () => {
     setOnAddList(!onAddList)
   }
 
@@ -41,15 +41,13 @@ function ButtonAddList({ boardId }: { boardId: string }) {
             <button className="rounded-lg p-2 bg-cyan-900 bg-opacity-75 text-sky-400">
               Add list
             </button>
-            <button onClick={handleOnAddList} className="w-fit h-fit">
+            <button onClick={toggleOnAdd} className="w-fit h-fit">
               <CloseIcon />
             </button>
           </div>
         </form>
       ) : (
-        <button
-          onClick={handleOnAddList}
-          className="w-full flex gap-4 px-6 py-4">
+        <button onClick={toggleOnAdd} className="w-full flex gap-4 px-6 py-4">
           <PlusIcon />
           Add another list
         </button>
