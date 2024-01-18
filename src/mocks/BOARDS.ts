@@ -1,3 +1,4 @@
+import { genUUID } from '@/utils/genUUID'
 import { Board, Card, List } from '../types/app'
 
 const CARDS: Card[] = [
@@ -23,8 +24,23 @@ const CARDS: Card[] = [
   },
 ]
 
-const LISTS: List[] = [{ id: crypto.randomUUID(), cards: CARDS, name: 'To Do' }]
+const CARDS_DONE = [
+  {
+    id: '4',
+    title: 'Learn Japanese',
+    def: '',
+    labels: [{ color: 'blue', name: 'home' }],
+    activity: [],
+  },
+]
+
+const LISTS: List[] = [
+  { id: genUUID(), cards: CARDS, name: 'To Do' },
+
+  { id: genUUID(), cards: CARDS_DONE, name: 'Done' },
+]
 
 export const BOARDS: Board[] = [
-  { id: crypto.randomUUID(), name: 'To Do APP', lists: LISTS },
+  // { id: crypto.randomUUID(), name: 'To Do APP', lists: LISTS },
+  { id: genUUID(), name: 'To Do APP', lists: LISTS },
 ]

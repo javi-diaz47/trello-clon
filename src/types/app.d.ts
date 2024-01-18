@@ -1,11 +1,13 @@
+import { UniqueIdentifier } from '@dnd-kit/core'
+
 export interface Board {
-  id: string
+  id: UniqueIdentifier
   name: string
   lists: List[]
 }
 
 export interface List {
-  id: string
+  id: UniqueIdentifier
   name: string
   cards: Card[]
 }
@@ -22,7 +24,7 @@ export interface Activity {
 }
 
 export interface Card {
-  id?: string
+  id?: UniqueIdentifier
   title: string
   def?: string
   labels?: Label[]

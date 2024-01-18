@@ -1,21 +1,25 @@
+import { UniqueIdentifier } from '@dnd-kit/core'
+
+// Lists
 export interface AddListParams {
-  boardId: string
+  boardId: UniqueIdentifier
   listName: string
 }
 
 export interface RemoveListParams {
-  boardId: string
-  listId: string
+  boardId: UniqueIdentifier
+  listId: UniqueIdentifier
 }
 
+// Cards
 export interface AddCardParams {
-  boardId: string
-  listId: string
+  boardId: UniqueIdentifier
+  listId: UniqueIdentifier
   cardTitle: string
 }
 
 export interface RemoveCardParams {
-  boardId: string
-  listId: string
-  cardId: string
+  boardId: UniqueIdentifier
+  listId: UniqueIdentifier
+  cardId: UniqueIdentifier
 }

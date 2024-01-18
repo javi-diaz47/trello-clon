@@ -1,11 +1,12 @@
 import { useBoards } from '@/Hooks/useBoards'
 import { CloseIcon } from '@/icons/CloseIcon'
 import { PlusIcon } from '@/icons/PlusIcon'
+import { UniqueIdentifier } from '@dnd-kit/core'
 import { useState } from 'react'
 
 interface ButtonAddCard {
-  boardId: string
-  listId: string
+  boardId: UniqueIdentifier
+  listId: UniqueIdentifier
 }
 
 function ButtonAddCard({ boardId, listId }: ButtonAddCard) {

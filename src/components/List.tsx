@@ -1,4 +1,4 @@
-import { type List } from '@/types/app'
+import type { List as TList } from '@/types/app'
 import { Button } from './Button'
 import { Card } from './Card'
 import { useBoards } from '@/Hooks/useBoards'
@@ -6,16 +6,28 @@ import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
 import { useState } from 'react'
 import { ButtonAddCard } from './ButtonAddCard'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { UniqueIdentifier } from '@dnd-kit/core'
 
-interface ListWithBoard extends List {
-  boardId: string
+interface ListProps {
+  list: TList
+  boardId: UniqueIdentifier
 }
 
-function List({ id, name, cards, boardId }: ListWithBoard) {
+function List({ list, boardId }: ListProps) {
   const { removeList } = useBoards()
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: list.id, data: { type: 'list', list } })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
+
   const handleRemoveList = () => {
-    removeList({ boardId, listId: id })
+    removeList({ boardId, listId: list.id })
   }
 
   const [onMenu, setOnMenu] = useState(false)
@@ -25,11 +37,17 @@ function List({ id, name, cards, boardId }: ListWithBoard) {
   }
 
   return (
-    <div className="border rounded-3xl  border-neutral-700 w-full max-w-xs min-h-48">
-      <header className="relative px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0  ">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="border rounded-3xl border-neutral-700 w-full min-h-full max-w-xs ">
+      <header
+        {...attributes}
+        {...listeners}
+        className="relative px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0 cursor-grabbing">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-light-white rounded-full"></div>
-          <h2 className="text-lg font-bold">{name}</h2>
+          <h2 className="text-lg font-bold">{list.name}</h2>
         </div>
         <div className="flex gap-4 ">
           <button onClick={handleOnMenu}>
@@ -55,13 +73,13 @@ function List({ id, name, cards, boardId }: ListWithBoard) {
         </div>
       </header>
       <ul className="px-4 py-4 h-full flex flex-col gap-4">
-        {cards.map((card) => (
+        {list.cards.map((card) => (
           <li key={card.id} className="list-none  ">
             <Card {...card} />
           </li>
         ))}
         <li>
-          <ButtonAddCard boardId={boardId} listId={id} />
+          <ButtonAddCard boardId={boardId} listId={list.id} />
         </li>
       </ul>
     </div>
