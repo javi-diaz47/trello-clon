@@ -72,6 +72,74 @@ function Board() {
     updateBoardLists(newLists)
   }
 
+  const onDragOver = (ev: DragOverEvent) => {
+    if (ev.active.data.current?.type !== 'card') return
+
+    const { active, over } = ev
+
+    if (!over || !active) return
+
+    if (active.id === over.id) return // place the card in its same position
+
+    // Find the index of the active card in the list
+    // and the index of the list that has the active card in the board
+
+    const from = board.lists
+      .map((list, i) => {
+        const cardIndex = getIndex(list.cards, active.id)
+        return { listIndex: i, cardIndex }
+      })
+      .find(({ cardIndex }) => cardIndex !== -1)
+
+    console.log(from)
+
+    const to = board.lists
+      .map((list, i) => {
+        const cardIndex = getIndex(list.cards, over.id)
+        return { listIndex: i, cardIndex }
+      })
+      .find(({ cardIndex }) => cardIndex !== -1)
+
+    console.log(to)
+
+    if (!!from && !!to) {
+      // card dropped in the same list
+      if (from.listIndex === to.listIndex) {
+        const newCards = arrayMove(
+          board.lists[from.listIndex].cards,
+          from.cardIndex,
+          to.cardIndex
+        )
+
+        console.log(newCards)
+
+        const newLists = board.lists
+        newLists[from.listIndex].cards = newCards
+
+        updateBoardLists(newLists)
+        return
+      }
+      // card dropped in another list
+      if (from.listIndex !== to.listIndex && activeCard) {
+        const newCards = arrayMove(
+          [...board.lists[to.listIndex].cards, activeCard],
+          from.cardIndex,
+          to.cardIndex
+        )
+
+        console.log(newCards)
+
+        const newLists = board.lists
+        newLists[from.listIndex].cards.splice(from.cardIndex, 1)
+
+        newLists[to.listIndex].cards = newCards
+
+        updateBoardLists(newLists)
+        return
+      }
+    }
+  }
+
   const handleClick = () => {
     addList('new')
   }
@@ -82,6 +150,7 @@ function Board() {
       <DndContext
         sensors={sensors}
         onDragStart={onDragStart}
+        onDragOver={onDragOver}
         onDragEnd={onDragEnd}>
         <SortableContext items={listsIds}>
           <section className="h-full relative min-h-screen rounded-2xl p-12 bg-dark-white  dark:bg-light-gray flex gap-12">
@@ -92,6 +161,7 @@ function Board() {
           {createPortal(
             <DragOverlay>
               {activeList && <DragListOverlay list={activeList} />}
+              {activeCard && <DragCardOverlay card={activeCard} />}
             </DragOverlay>,
             document.body
           )}
