@@ -14,12 +14,15 @@ function ButtonAddCard({ boardId, listId }: ButtonAddCard) {
 
   const handleAddCard = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const data = Object.fromEntries(new FormData(ev.currentTarget)) as {
+    const { cardTitle } = Object.fromEntries(
+      new FormData(ev.currentTarget)
+    ) as {
       cardTitle: string
     }
-    if (!data?.cardTitle) return
 
-    addCard({ boardId, listId, ...data })
+    if (!cardTitle) return
+
+    addCard(listId, cardTitle)
     toggleonAdd()
   }
 

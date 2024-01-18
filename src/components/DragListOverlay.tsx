@@ -1,22 +1,16 @@
 import type { List as TList } from '@/types/app'
-import { Button } from './Button'
 import { Card } from './Card'
-import { useBoards } from '@/Hooks/useBoards'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
 import { useState } from 'react'
-import { ButtonAddCard } from './ButtonAddCard'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { UniqueIdentifier } from '@dnd-kit/core'
 
 interface ListProps {
   list: TList
 }
 
 function DragListOverlay({ list }: ListProps) {
-  const { removeList } = useBoards()
-
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: list.id, data: { type: 'list', list } })
 
@@ -42,7 +36,7 @@ function DragListOverlay({ list }: ListProps) {
         className="relative px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0 cursor-grabbing">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-light-white rounded-full"></div>
-          <h2 className="text-lg font-bold">{list.name}</h2>
+          <h2 className="text-lg font-bold">{list.title}</h2>
         </div>
         <div className="flex gap-4 ">
           <button onClick={handleOnMenu}>

@@ -6,14 +6,14 @@ const CARDS: Card[] = [
     id: '0',
     title: 'Do Laundry',
     def: 'Seek the clothes, and wash them',
-    labels: [{ color: 'blue', name: 'home' }],
+    labels: [{ color: 'blue', title: 'home' }],
     activity: [],
   },
   {
     id: '1',
     title: 'DB Migration',
     def: 'To migrate the DB',
-    labels: [{ color: 'red', name: 'backend' }],
+    labels: [{ color: 'red', title: 'backend' }],
     activity: [
       {
         member: 'me',
@@ -29,18 +29,18 @@ const CARDS_DONE = [
     id: '4',
     title: 'Learn Japanese',
     def: '',
-    labels: [{ color: 'blue', name: 'home' }],
+    labels: [{ color: 'blue', title: 'home' }],
     activity: [],
   },
 ]
 
 const LISTS: List[] = [
-  { id: genUUID(), cards: CARDS, name: 'To Do' },
+  { id: genUUID(), cards: CARDS, title: 'To Do' },
 
-  { id: genUUID(), cards: CARDS_DONE, name: 'Done' },
+  { id: genUUID(), cards: CARDS_DONE, title: 'Done' },
 ]
 
 export const BOARDS: Board[] = [
-  // { id: crypto.randomUUID(), name: 'To Do APP', lists: LISTS },
-  { id: genUUID(), name: 'To Do APP', lists: LISTS },
+  // { id: crypto.randomUUID(), title: 'To Do APP', lists: LISTS },
+  { id: genUUID(), title: 'To Do APP', lists: LISTS },
 ]

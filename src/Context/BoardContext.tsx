@@ -3,22 +3,16 @@
 import { BOARDS } from '@/mocks/BOARDS'
 import { Board, List } from '@/types/app'
 import type { UniqueIdentifier } from '@/types/utils'
-import {
-  AddCardParams,
-  AddListParams,
-  RemoveCardParams,
-  RemoveListParams,
-} from '@/types/boardContext'
 import { genUUID, getIndex } from '@/utils/genUUID'
 import { createContext, useState } from 'react'
 
 interface BoardContext {
-  boards: Board[]
-  updateBoardLists: (id: UniqueIdentifier, lists: List[]) => void
-  addList: (data: AddListParams) => void
-  removeList: (data: RemoveListParams) => void
-  addCard: (data: AddCardParams) => void
-  removeCard: (data: RemoveCardParams) => void
+  board: Board
+  updateBoardLists: (lists: List[]) => void
+  addList: (listTitle: string) => void
+  removeList: (id: UniqueIdentifier) => void
+  addCard: (listId: UniqueIdentifier, title: string) => void
+  removeCard: (listId: UniqueIdentifier, cardId: UniqueIdentifier) => void
 }
 
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
@@ -28,83 +22,65 @@ export const BoardContextProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const [boards, setBoard] = useState<Board[]>(BOARDS)
+  const [board, setBoard] = useState<Board>(BOARDS[0])
 
-  const updateBoardLists = (id: UniqueIdentifier, newLists: List[]) => {
-    const newBoards = boards.map((board) => {
-      if (board.id !== id) return board
-      return {
-        ...board,
-        lists: newLists,
-      }
-    })
+  const updateBoardLists = (newLists: List[]) => {
+    const newBoard = {
+      ...board,
+      lists: newLists,
+    }
 
-    setBoard(newBoards)
+    setBoard(newBoard)
   }
 
-  const addList = ({ boardId, listName }: AddListParams) => {
-    const boardIndex = boards.findIndex((board) => board.id === boardId)
+  const addList = (listTitle: string) => {
+    const newBoard = { ...board }
 
-    const newBoards = [...boards]
-
-    newBoards[boardIndex].lists.push({
+    newBoard.lists.push({
       id: genUUID(),
-      name: listName,
+      title: listTitle,
       cards: [],
     })
 
-    setBoard(newBoards)
+    setBoard(newBoard)
   }
 
-  const removeList = ({ boardId, listId }: RemoveListParams) => {
-    const boardIndex = boards.findIndex((board) => board.id === boardId)
+  const removeList = (listId: UniqueIdentifier) => {
+    const newBoard = { ...board }
 
-    const newBoards = [...boards]
+    newBoard.lists = newBoard.lists.filter((list) => list.id !== listId)
 
-    newBoards[boardIndex].lists = newBoards[boardIndex].lists.filter(
-      (list) => list.id !== listId
-    )
-
-    setBoard(newBoards)
+    setBoard(newBoard)
   }
 
-  const addCard = ({ boardId, listId, cardTitle }: AddCardParams) => {
-    const boardIndex = boards.findIndex((board) => board.id === boardId)
-    const listIndex = boards[boardIndex].lists.findIndex(
-      (list) => list.id === listId
-    )
+  const addCard = (listId: UniqueIdentifier, cardTitle: string) => {
+    const listIndex = getIndex(board.lists, listId)
 
-    const newBoards = [...boards]
+    const newBoard = { ...board }
 
-    newBoards[boardIndex].lists[listIndex].cards.push({
+    newBoard.lists[listIndex].cards.push({
       id: genUUID(),
       title: cardTitle,
     })
 
-    console.log(newBoards)
-
-    setBoard(newBoards)
+    setBoard(newBoard)
   }
 
-  const removeCard = ({ boardId, listId }: RemoveListParams) => {
-    const boardIndex = boards.findIndex((board) => board.id === boardId)
-    const listIndex = boards[boardIndex].lists.findIndex(
-      (list) => list.id === listId
+  const removeCard = (listId: UniqueIdentifier, cardId: UniqueIdentifier) => {
+    const listIndex = getIndex(board.lists, listId)
+    const newBoard = { ...board }
+
+    newBoard.lists[listIndex].cards = newBoard.lists[listIndex].cards.filter(
+      (card) => card.id !== cardId
     )
 
-    const newBoards = [...boards]
-
-    newBoards[boardIndex].lists[listIndex].cards = newBoards[boardIndex].lists[
-      listIndex
-    ].cards.filter((list) => list.id !== listId)
-
-    setBoard(newBoards)
+    setBoard(newBoard)
   }
 
   return (
     <BoardContext.Provider
       value={{
-        boards,
+        board,
         updateBoardLists,
         addList,
         removeList,

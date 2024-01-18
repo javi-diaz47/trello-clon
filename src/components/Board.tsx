@@ -21,11 +21,7 @@ import { DragListOverlay } from './DragListOverlay'
 import { DragCardOverlay } from './DragCardOverlay'
 
 function Board() {
-  const { boards, addList, updateBoardLists } = useBoards()
-  const boardId = boards[0].id // <== The Id will be a param in the paths
-
-  const boardIndex = getIndex(boards, boardId)
-  const board = boards[boardIndex]
+  const { board, addList, updateBoardLists } = useBoards()
 
   const listsIds = useMemo(() => board.lists.map(({ id }) => id), [board])
 
@@ -73,11 +69,11 @@ function Board() {
 
     const newLists = arrayMove(board.lists, fromIndex, toIndex)
 
-    updateBoardLists(board.id, newLists)
+    updateBoardLists(newLists)
   }
 
   const handleClick = () => {
-    addList({ boardId: board.id, listName: 'new' })
+    addList('new')
   }
 
   return (
