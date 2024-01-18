@@ -4,6 +4,7 @@ import { useBoards } from '@/Hooks/useBoards'
 import {
   DndContext,
   DragEndEvent,
+  DragOverEvent,
   DragOverlay,
   DragStartEvent,
   PointerSensor,
@@ -14,12 +15,13 @@ import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 import { List } from './List'
 import { getIndex } from '@/utils/genUUID'
 import { useMemo, useState } from 'react'
-import { List as TList } from '@/types/app'
+import { Card, List as TList } from '@/types/app'
 import { createPortal } from 'react-dom'
 import { DragListOverlay } from './DragListOverlay'
+import { DragCardOverlay } from './DragCardOverlay'
 
 function Board() {
-  const { boards, updateBoardList } = useBoards()
+  const { boards, addList, updateBoardLists } = useBoards()
   const boardId = boards[0].id // <== The Id will be a param in the paths
 
   const boardIndex = getIndex(boards, boardId)
@@ -28,6 +30,7 @@ function Board() {
   const listsIds = useMemo(() => board.lists.map(({ id }) => id), [board])
 
   const [activeList, setActiveList] = useState<TList | null>(null)
+  const [activeCard, setActiveCard] = useState<Card | null>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -41,13 +44,25 @@ function Board() {
     const curr = ev.active.data.current
 
     if (!curr) return
-    if (curr.type !== 'list') return
+    if (curr.type === 'list') {
+      setActiveList(curr.list)
+      return
+    }
 
-    setActiveList(curr.list)
+    if (curr.type === 'card') {
+      setActiveCard(curr.card)
+      return
+    }
   }
 
   const onDragEnd = (ev: DragEndEvent) => {
+    setActiveList(null)
+    setActiveCard(null)
+
+    if (ev.active.data.current?.type !== 'list') return
+
     const { active, over } = ev
+
     if (!over || !active) return
 
     if (active.id === over.id) return
@@ -58,28 +73,35 @@ function Board() {
 
     const newLists = arrayMove(board.lists, fromIndex, toIndex)
 
-    updateBoardList(board.id, newLists)
+    updateBoardLists(board.id, newLists)
+  }
+
+  const handleClick = () => {
+    addList({ boardId: board.id, listName: 'new' })
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}>
-      <SortableContext items={listsIds}>
-        <section className="h-full relative min-h-screen rounded-2xl p-12 bg-dark-white  dark:bg-light-gray flex gap-12">
-          {board.lists.map((list) => (
-            <List key={list.id} list={list} boardId={board.id} />
-          ))}
-        </section>
-        {createPortal(
-          <DragOverlay>
-            {activeList && <DragListOverlay list={activeList} />}
-          </DragOverlay>,
-          document.body
-        )}
-      </SortableContext>
-    </DndContext>
+    <>
+      <button onClick={handleClick}>Add list</button>
+      <DndContext
+        sensors={sensors}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}>
+        <SortableContext items={listsIds}>
+          <section className="h-full relative min-h-screen rounded-2xl p-12 bg-dark-white  dark:bg-light-gray flex gap-12">
+            {board.lists.map((list) => (
+              <List key={list.id} list={list} boardId={board.id} />
+            ))}
+          </section>
+          {createPortal(
+            <DragOverlay>
+              {activeList && <DragListOverlay list={activeList} />}
+            </DragOverlay>,
+            document.body
+          )}
+        </SortableContext>
+      </DndContext>
+    </>
   )
 }
 

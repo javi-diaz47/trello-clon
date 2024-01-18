@@ -14,7 +14,7 @@ import { createContext, useState } from 'react'
 
 interface BoardContext {
   boards: Board[]
-  updateBoardList: (id: UniqueIdentifier, lists: List[]) => void
+  updateBoardLists: (id: UniqueIdentifier, lists: List[]) => void
   addList: (data: AddListParams) => void
   removeList: (data: RemoveListParams) => void
   addCard: (data: AddCardParams) => void
@@ -30,7 +30,7 @@ export const BoardContextProvider = ({
 }) => {
   const [boards, setBoard] = useState<Board[]>(BOARDS)
 
-  const updateBoardList = (id: UniqueIdentifier, newLists: List[]) => {
+  const updateBoardLists = (id: UniqueIdentifier, newLists: List[]) => {
     const newBoards = boards.map((board) => {
       if (board.id !== id) return board
       return {
@@ -38,8 +38,6 @@ export const BoardContextProvider = ({
         lists: newLists,
       }
     })
-
-    console.log('first')
 
     setBoard(newBoards)
   }
@@ -83,7 +81,7 @@ export const BoardContextProvider = ({
       title: cardTitle,
     })
 
-    console.log('first')
+    console.log(newBoards)
 
     setBoard(newBoards)
   }
@@ -107,7 +105,7 @@ export const BoardContextProvider = ({
     <BoardContext.Provider
       value={{
         boards,
-        updateBoardList,
+        updateBoardLists,
         addList,
         removeList,
         addCard,

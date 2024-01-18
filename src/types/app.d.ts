@@ -24,7 +24,7 @@ export interface Activity {
 }
 
 export interface Card {
-  id?: UniqueIdentifier
+  id: UniqueIdentifier
   title: string
   def?: string
   labels?: Label[]
