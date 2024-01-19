@@ -8,6 +8,7 @@ import {
   DragOverlay,
   DragStartEvent,
   PointerSensor,
+  useDroppable,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
@@ -55,7 +56,56 @@ function Board() {
     setActiveList(null)
     setActiveCard(null)
 
-    if (ev.active.data.current?.type !== 'list') return
+    if (!ev.over) return
+
+    let overId = ev.over.id.toString()
+
+    // Move a card to an empty list
+
+    if (overId.includes('Droppable')) {
+      overId = overId.slice('Droppable-'.length)
+
+      console.log(overId)
+
+      const { active, over } = ev
+
+      if (!over || !active) return
+
+      if (active.id === over.id) return // place the card in its same position
+
+      // Find the index of the active card in the list
+      // and the index of the list that has the active card in the board
+
+      const from = board.lists
+        .map((list, i) => {
+          const cardIndex = getIndex(list.cards, active.id)
+          return { listIndex: i, cardIndex }
+        })
+        .find(({ cardIndex }) => cardIndex !== -1)
+
+      const toListIndex = getIndex(board.lists, overId)
+
+      if (!!from) {
+        // card dropped in another list
+        if (from.listIndex !== toListIndex && activeCard) {
+          const newCards = [activeCard]
+
+          console.log(newCards)
+
+          const newLists = board.lists
+          newLists[from.listIndex].cards.splice(from.cardIndex, 1)
+
+          newLists[toListIndex].cards = newCards
+
+          updateBoardLists(newLists)
+          return
+        }
+      }
+    }
+
+    // Move The Lists
+
+    if (ev.active.data.current?.type === 'card') return
 
     const { active, over } = ev
 
@@ -65,7 +115,8 @@ function Board() {
 
     const fromIndex = getIndex(board.lists, active.id)
 
-    const toIndex = getIndex(board.lists, over.id)
+    // console.log(overId)
+    const toIndex = getIndex(board.lists, overId)
 
     const newLists = arrayMove(board.lists, fromIndex, toIndex)
 
@@ -91,8 +142,6 @@ function Board() {
       })
       .find(({ cardIndex }) => cardIndex !== -1)
 
-    console.log(from)
-
     const to = board.lists
       .map((list, i) => {
         const cardIndex = getIndex(list.cards, over.id)
@@ -100,7 +149,7 @@ function Board() {
       })
       .find(({ cardIndex }) => cardIndex !== -1)
 
-    console.log(to)
+    console.log({ from, to })
 
     if (!!from && !!to) {
       // card dropped in the same list
@@ -111,8 +160,6 @@ function Board() {
           to.cardIndex
         )
 
-        console.log(newCards)
-
         const newLists = board.lists
         newLists[from.listIndex].cards = newCards
 
@@ -121,13 +168,8 @@ function Board() {
       }
       // card dropped in another list
       if (from.listIndex !== to.listIndex && activeCard) {
-        const newCards = arrayMove(
-          [...board.lists[to.listIndex].cards, activeCard],
-          from.cardIndex,
-          to.cardIndex
-        )
-
-        console.log(newCards)
+        const help = [activeCard, ...board.lists[to.listIndex].cards]
+        const newCards = arrayMove(help, to.cardIndex, to.cardIndex)
 
         const newLists = board.lists
         newLists[from.listIndex].cards.splice(from.cardIndex, 1)

@@ -8,6 +8,7 @@ import { ButtonAddCard } from './ButtonAddCard'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { UniqueIdentifier } from '@dnd-kit/core'
+import { Droppable } from './Droppable'
 
 interface ListProps {
   list: TList
@@ -89,16 +90,19 @@ function List({ list, boardId }: ListProps) {
           </ul>
         </div>
       </header>
-      <ul className="px-4 py-4 h-full flex flex-col gap-4">
-        <SortableContext items={cardsIds}>
-          {list.cards.map((card) => (
-            <Card key={card.id} card={card} />
-          ))}
-        </SortableContext>
-        <li>
-          <ButtonAddCard boardId={boardId} listId={list.id} />
-        </li>
-      </ul>
+
+      <Droppable id={list.id} disabled={!!list.cards.length}>
+        <ul className="px-4 py-4 h-full flex flex-col gap-4">
+          <SortableContext items={cardsIds}>
+            {list.cards.map((card) => (
+              <Card key={card.id} card={card} />
+            ))}
+          </SortableContext>
+          <li>
+            <ButtonAddCard boardId={boardId} listId={list.id} />
+          </li>
+        </ul>
+      </Droppable>
     </div>
   )
 }
