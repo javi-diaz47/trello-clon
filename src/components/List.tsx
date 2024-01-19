@@ -3,7 +3,7 @@ import { Card } from './Card'
 import { useBoards } from '@/Hooks/useBoards'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
-import { useMemo, useState } from 'react'
+import { FormEvent, useMemo, useState } from 'react'
 import { ButtonAddCard } from './ButtonAddCard'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -16,7 +16,7 @@ interface ListProps {
 }
 
 function List({ list, boardId }: ListProps) {
-  const { removeList } = useBoards()
+  const { removeList, updateListById } = useBoards()
 
   const cardsIds = useMemo(() => list.cards.map(({ id }) => id), [list.cards])
 
@@ -39,6 +39,20 @@ function List({ list, boardId }: ListProps) {
   }
 
   const [onMenu, setOnMenu] = useState(false)
+  const [isChangeTitle, setIsChangeTitle] = useState(false)
+
+  const onChangeTitle = (ev: FormEvent<HTMLFormElement>) => {
+    const { title } = Object.fromEntries(new FormData(ev.currentTarget)) as {
+      title: string
+    }
+
+    if (!title.length) return
+    const newList = { ...list, title: title.trim() }
+
+    updateListById(list.id, newList)
+
+    setIsChangeTitle(false)
+  }
 
   const handleOnMenu = () => {
     setOnMenu(!onMenu)
@@ -65,7 +79,22 @@ function List({ list, boardId }: ListProps) {
         className=" px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0 cursor-grabbing">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-light-white rounded-full"></div>
-          <h2 className="text-lg font-bold">{list.title}</h2>
+          {isChangeTitle ? (
+            <form onSubmit={onChangeTitle}>
+              <input
+                type="text"
+                name="title"
+                autoFocus
+                className="w-full bg-gray-800"
+              />
+            </form>
+          ) : (
+            <h2
+              onClick={() => setIsChangeTitle(true)}
+              className="text-lg font-bold cursor-pointer">
+              {list.title}
+            </h2>
+          )}
         </div>
         <div className="flex gap-4 ">
           <button onClick={handleOnMenu}>

@@ -9,6 +9,7 @@ import { createContext, useState } from 'react'
 interface BoardContext {
   board: Board
   updateBoardLists: (lists: List[]) => void
+  updateListById: (id: UniqueIdentifier, newList: List) => void
   addList: (listTitle: string) => void
   removeList: (id: UniqueIdentifier) => void
   addCard: (listId: UniqueIdentifier, title: string) => void
@@ -23,6 +24,16 @@ export const BoardContextProvider = ({
   children: React.ReactNode
 }) => {
   const [board, setBoard] = useState<Board>(BOARDS[0])
+
+  const updateListById = (id: UniqueIdentifier, newList: List) => {
+    const listIndex = getIndex(board.lists, id)
+
+    const newBoard = { ...board }
+
+    newBoard.lists[listIndex] = newList
+
+    setBoard(newBoard)
+  }
 
   const updateBoardLists = (newLists: List[]) => {
     const newBoard = {
@@ -82,6 +93,7 @@ export const BoardContextProvider = ({
       value={{
         board,
         updateBoardLists,
+        updateListById,
         addList,
         removeList,
         addCard,

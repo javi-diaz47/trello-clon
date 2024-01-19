@@ -65,8 +65,6 @@ function Board() {
     if (overId.includes('Droppable')) {
       overId = overId.slice('Droppable-'.length)
 
-      console.log(overId)
-
       const { active, over } = ev
 
       if (!over || !active) return
@@ -89,8 +87,6 @@ function Board() {
         // card dropped in another list
         if (from.listIndex !== toListIndex && activeCard) {
           const newCards = [activeCard]
-
-          console.log(newCards)
 
           const newLists = board.lists
           newLists[from.listIndex].cards.splice(from.cardIndex, 1)
@@ -115,7 +111,6 @@ function Board() {
 
     const fromIndex = getIndex(board.lists, active.id)
 
-    // console.log(overId)
     const toIndex = getIndex(board.lists, overId)
 
     const newLists = arrayMove(board.lists, fromIndex, toIndex)
@@ -148,8 +143,6 @@ function Board() {
         return { listIndex: i, cardIndex }
       })
       .find(({ cardIndex }) => cardIndex !== -1)
-
-    console.log({ from, to })
 
     if (!!from && !!to) {
       // card dropped in the same list
@@ -185,7 +178,6 @@ function Board() {
   const handleClick = () => {
     addList('new')
   }
-
   return (
     <>
       <button onClick={handleClick}>Add list</button>
