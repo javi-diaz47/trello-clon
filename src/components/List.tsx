@@ -3,7 +3,7 @@ import { Card } from './Card'
 import { useBoards } from '@/Hooks/useBoards'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
-import { FormEvent, useMemo, useState } from 'react'
+import { ElementRef, FormEvent, useMemo, useRef, useState } from 'react'
 import { ButtonAddCard } from './ButtonAddCard'
 import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -42,20 +42,25 @@ function List({ list, boardId }: ListProps) {
   const [isChangeTitle, setIsChangeTitle] = useState(false)
 
   const onChangeTitle = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
     const { title } = Object.fromEntries(new FormData(ev.currentTarget)) as {
       title: string
     }
 
-    if (!title.length) return
-    const newList = { ...list, title: title.trim() }
+    if (title.length) {
+      const newList = { ...list, title: title.trim() }
 
-    updateListById(list.id, newList)
-
+      updateListById(list.id, newList)
+    }
     setIsChangeTitle(false)
   }
 
   const handleOnMenu = () => {
     setOnMenu(!onMenu)
+  }
+
+  const onBlur = (ev: React.FocusEvent<HTMLInputElement, Element>) => {
+    setIsChangeTitle(false)
   }
 
   if (isDragging) {
@@ -82,8 +87,10 @@ function List({ list, boardId }: ListProps) {
           {isChangeTitle ? (
             <form onSubmit={onChangeTitle}>
               <input
+                placeholder={list.title}
                 type="text"
                 name="title"
+                onBlur={onBlur}
                 autoFocus
                 className="w-full bg-gray-800"
               />
