@@ -15,13 +15,13 @@ import {
 import { SortableContext, arrayMove } from '@dnd-kit/sortable'
 import { List } from './List'
 import { getIndex } from '@/utils/genUUID'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Card, List as TList } from '@/types/app'
 import { createPortal } from 'react-dom'
 import { DragListOverlay } from './DragListOverlay'
 import { DragCardOverlay } from './DragCardOverlay'
 
-function Board() {
+export default function Board() {
   const { board, addList, updateBoardLists } = useBoards()
 
   const listsIds = useMemo(() => board.lists.map(({ id }) => id), [board])
@@ -36,6 +36,14 @@ function Board() {
       },
     })
   )
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   const onDragStart = (ev: DragStartEvent) => {
     const curr = ev.active.data.current
@@ -178,6 +186,7 @@ function Board() {
   const handleClick = () => {
     addList('new')
   }
+
   return (
     <>
       <button onClick={handleClick}>Add list</button>
@@ -192,17 +201,16 @@ function Board() {
               <List key={list.id} list={list} boardId={board.id} />
             ))}
           </section>
-          {createPortal(
-            <DragOverlay>
-              {activeList && <DragListOverlay list={activeList} />}
-              {activeCard && <DragCardOverlay card={activeCard} />}
-            </DragOverlay>,
-            document.body
-          )}
+          {typeof window === 'object' &&
+            createPortal(
+              <DragOverlay>
+                {activeList && <DragListOverlay list={activeList} />}
+                {activeCard && <DragCardOverlay card={activeCard} />}
+              </DragOverlay>,
+              document.body
+            )}
         </SortableContext>
       </DndContext>
     </>
   )
 }
-
-export { Board }

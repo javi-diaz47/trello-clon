@@ -9,6 +9,7 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { UniqueIdentifier } from '@dnd-kit/core'
 import { Droppable } from './Droppable'
+import { genUUID } from '@/utils/genUUID'
 
 interface ListProps {
   list: TList
@@ -27,7 +28,16 @@ function List({ list, boardId }: ListProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: list.id, data: { type: 'list', list } })
+  } = useSortable({
+    id: list.id,
+    data: {
+      type: 'list',
+      list,
+      attributes: {
+        role: 'list',
+      },
+    },
+  })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -104,10 +114,10 @@ function List({ list, boardId }: ListProps) {
           )}
         </div>
         <div className="flex gap-4 ">
-          <button onClick={handleOnMenu}>
+          <button aria-label="toggle menu" onClick={handleOnMenu}>
             <DotsIcon />
           </button>
-          <button>
+          <button aria-label="add new card">
             <PlusIcon />
           </button>
         </div>
@@ -118,10 +128,12 @@ function List({ list, boardId }: ListProps) {
           } absolute bg-dark-gray rounded-lg p-4 z-10 top-10 right-16`}>
           <ul className="list-none grid gap-2">
             <li className="hover:bg-light-gray px-2 rounded-md">
-              <button onClick={handleRemoveList}>Remove</button>
+              <button aria-label="remove list" onClick={handleRemoveList}>
+                Remove
+              </button>
             </li>
             <li className="hover:bg-light-gray px-2 rounded-md">
-              <button>Sort by date</button>
+              <button aria-label="sort cards by date">Sort by date</button>
             </li>
           </ul>
         </div>

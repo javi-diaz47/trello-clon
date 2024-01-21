@@ -15,7 +15,16 @@ function Card({ card }: CardProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: card.id, data: { type: 'card', card } })
+  } = useSortable({
+    id: card.id,
+    data: {
+      type: 'card',
+      card,
+      attributes: {
+        role: 'listitem',
+      },
+    },
+  })
 
   const style = {
     transform: CSS.Transform.toString(transform),

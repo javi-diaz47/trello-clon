@@ -12,7 +12,16 @@ interface ListProps {
 
 function DragListOverlay({ list }: ListProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: list.id, data: { type: 'list', list } })
+    useSortable({
+      id: list.id,
+      data: {
+        type: 'list',
+        list,
+        attributes: {
+          role: 'list',
+        },
+      },
+    })
 
   const style = {
     transform: CSS.Transform.toString(transform),

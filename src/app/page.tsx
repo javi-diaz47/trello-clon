@@ -1,9 +1,11 @@
 'use client'
 
-import { Board } from '@/components/Board'
-import { List } from '@/components/List'
-import { ButtonAddList } from '@/components/ButtonAddList'
-import { useBoards } from '@/Hooks/useBoards'
+import { BoardSkeleton } from '@/components/BoardSkeleton'
+import dynamic from 'next/dynamic'
+
+const DynamicBoard = dynamic(() => import('@/components/Board'), {
+  loading: () => <BoardSkeleton />,
+})
 
 export default function Home() {
   return (
@@ -12,8 +14,7 @@ export default function Home() {
         <h2 className="text-4xl font-bold  ">Trello-Clon</h2>
         {/* <ButtonAddList /> */}
       </div>
-
-      <Board />
+      <DynamicBoard />
     </main>
   )
 }
