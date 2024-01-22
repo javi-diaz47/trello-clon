@@ -1,34 +1,17 @@
+import { useSortableProvider } from '@/Hooks/useSortableProvider'
 import { type Card } from '@/types/app'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 
 interface CardProps {
   card: Card
 }
 
 function DragCardOverlay({ card }: CardProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: card.id,
-    data: {
-      type: 'card',
-      card,
-      attributes: {
-        role: 'listitem',
-      },
-    },
-  })
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
+  const { attributes, listeners, setNodeRef, style } = useSortableProvider(
+    card.id,
+    'card',
+    'listitem',
+    card
+  )
 
   return (
     <li

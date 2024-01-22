@@ -3,7 +3,8 @@
 import { BOARDS } from '@/mocks/BOARDS'
 import { Board, List } from '@/types/app'
 import type { UniqueIdentifier } from '@/types/utils'
-import { genUUID, getIndex } from '@/utils/genUUID'
+import { genUUID } from '@/utils/genUUID'
+import { getIndex } from '@/utils/getIndex'
 import { createContext, useState } from 'react'
 
 interface BoardContext {

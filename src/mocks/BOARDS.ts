@@ -1,11 +1,10 @@
-import { genUUID } from '@/utils/genUUID'
 import { Board, Card, List } from '../types/app'
 
 const CARDS: Card[] = [
   {
     id: '2',
     title: 'Do Laundry',
-    def: 'Seek the clothes, and wash them',
+    def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
     labels: [{ color: 'blue', title: 'home' }],
     activity: [],
   },

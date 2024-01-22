@@ -1,32 +1,36 @@
 import type { List as TList } from '@/types/app'
-import { Card } from './Card'
+import { Card } from '../Card'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
 import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { useSortableProvider } from '@/Hooks/useSortableProvider'
 
 interface ListProps {
   list: TList
 }
 
 function DragListOverlay({ list }: ListProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id: list.id,
-      data: {
-        type: 'list',
-        list,
-        attributes: {
-          role: 'list',
-        },
-      },
-    })
+  // const { attributes, listeners, setNodeRef, transform, transition } =
+  //   useSortable({
+  //     id: list.id,
+  //     data: {
+  //       type: 'list',
+  //       list,
+  //       attributes: {
+  //         role: 'list',
+  //       },
+  //     },
+  //   })
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
+  // const style = {
+  //   transform: CSS.Transform.toString(transform),
+  //   transition,
+  // }
+
+  const { attributes, isDragging, listeners, setNodeRef, style } =
+    useSortableProvider(list.id, 'list', 'list', list)
 
   const [onMenu, setOnMenu] = useState(false)
 

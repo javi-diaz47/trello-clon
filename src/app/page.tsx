@@ -1,6 +1,6 @@
 'use client'
 
-import { BoardSkeleton } from '@/components/BoardSkeleton'
+import { BoardSkeleton } from '@/components/skeletons/BoardSkeleton'
 import dynamic from 'next/dynamic'
 
 const DynamicBoard = dynamic(() => import('@/components/Board'), {
