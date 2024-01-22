@@ -9,11 +9,8 @@ const DynamicBoard = dynamic(() => import('@/components/Board'), {
 
 export default function Home() {
   return (
-    <main className="min-h-screen pl-8 bg-light-white text-text dark:bg-dark-gray dark:text-light-white ">
-      <div>
-        <h2 className="text-4xl font-bold  ">Trello-Clon</h2>
-        {/* <ButtonAddList /> */}
-      </div>
+    <main className="grid grid-cols-[6rem_1fr] w-full h-full min-h-screen  bg-light-white text-text dark:bg-dark-gray dark:text-light-white ">
+      <nav className=" w-full  "></nav>
       <DynamicBoard />
     </main>
   )

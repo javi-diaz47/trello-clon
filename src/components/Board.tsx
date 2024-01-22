@@ -45,29 +45,33 @@ export default function Board() {
   }
 
   return (
-    <>
-      <button onClick={handleClick}>Add list</button>
-      <DndContext
-        sensors={sensors}
-        onDragStart={onDragStart}
-        onDragOver={onDragOver}
-        onDragEnd={onDragEnd}>
-        <SortableContext items={listsIds}>
-          <section className="h-full relative min-h-screen rounded-2xl p-12 bg-dark-white  dark:bg-light-gray flex gap-12">
-            {board.lists.map((list) => (
-              <List key={list.id} list={list} boardId={board.id} />
-            ))}
-          </section>
-          {typeof window === 'object' &&
-            createPortal(
-              <DragOverlay>
-                {activeList && <DragListOverlay list={activeList} />}
-                {activeCard && <DragCardOverlay card={activeCard} />}
-              </DragOverlay>,
-              document.body
-            )}
-        </SortableContext>
-      </DndContext>
-    </>
+    <div className="flex flex-col w-full pr-8 gap-4 overflow-hidden">
+      <div className="w-full min-h-[6rem]">
+        <button onClick={handleClick}>Add list</button>
+      </div>
+      <div className="w-full h-full bg-light-gray rounded-3xl mr-16 mb-8">
+        <DndContext
+          sensors={sensors}
+          onDragStart={onDragStart}
+          onDragOver={onDragOver}
+          onDragEnd={onDragEnd}>
+          <SortableContext items={listsIds}>
+            <section className="h-full flex overflow-scroll relative rounded-2xl p-8 gap-12">
+              {board.lists.map((list) => (
+                <List key={list.id} list={list} boardId={board.id} />
+              ))}
+            </section>
+            {typeof window === 'object' &&
+              createPortal(
+                <DragOverlay>
+                  {activeList && <DragListOverlay list={activeList} />}
+                  {activeCard && <DragCardOverlay card={activeCard} />}
+                </DragOverlay>,
+                document.body
+              )}
+          </SortableContext>
+        </DndContext>
+      </div>
+    </div>
   )
 }

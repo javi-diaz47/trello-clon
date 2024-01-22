@@ -14,6 +14,9 @@ const config: Config = {
         'dark-gray': '#121212',
         'light-gray': '#222222',
       },
+      gridTemplateColumns: {
+        home: '6rem minmax(800px, 1fr)',
+      },
     },
   },
   plugins: [],

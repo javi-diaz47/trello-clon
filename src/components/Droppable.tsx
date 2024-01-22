@@ -1,6 +1,5 @@
 import { UniqueIdentifier } from '@/types/utils'
 import { useDroppable } from '@dnd-kit/core'
-import { RSC_ACTION_ENCRYPTION_ALIAS } from 'next/dist/lib/constants'
 import React, { useEffect, useState } from 'react'
 
 interface Droppable {
@@ -15,7 +14,7 @@ export function Droppable({ id, children, disabled }: Droppable) {
     data: {
       listId: id,
     },
-    disabled,
+    disabled: false,
   })
 
   const [cardOver, setCardOver] = useState(false)
@@ -31,7 +30,7 @@ export function Droppable({ id, children, disabled }: Droppable) {
       ref={setNodeRef}
       className={`${
         cardOver ? 'ring-sky-500' : 'ring-transparent'
-      }   w-full h-full   ring-2 rounded-b-lg`}>
+      }   relative w-full h-full  ring-2 rounded-b-3xl `}>
       {children}
     </div>
   )

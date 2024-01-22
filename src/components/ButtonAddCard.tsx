@@ -39,7 +39,7 @@ function ButtonAddCard({ boardId, listId }: ButtonAddCard) {
 
   return (
     <div
-      className={`w-full max-w-xs flex justify-between rounded-md border-2 border-transparent ${
+      className={`w-full max-w-xs flex justify-between rounded-b-3xl border-2 border-transparent ${
         onAdd ? ON_ADD_STYLES : DEFAULT_STYLES
       }`}>
       {onAdd ? (
