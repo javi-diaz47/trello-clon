@@ -24,7 +24,7 @@ function List({ list, boardId }: ListProps) {
       <div
         ref={setNodeRef}
         style={style}
-        className="border-2 rounded-3xl border-sky-400 w-full min-h-full max-w-xs opacity-40"
+        className="min-w-[20rem] border-2 rounded-3xl border-sky-400 w-full min-h-full max-w-xs opacity-40"
       />
     )
   }
