@@ -21,6 +21,46 @@ const CARDS: Card[] = [
       },
     ],
   },
+  {
+    id: '3',
+    title: 'Do Laundry',
+    def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
+    labels: [{ color: 'blue', title: 'home' }],
+    activity: [],
+  },
+  {
+    id: '5',
+    title: 'DB Migration',
+    def: 'To migrate the DB',
+    labels: [{ color: 'red', title: 'backend' }],
+    activity: [
+      {
+        member: 'me',
+        action: 'moved this card from Doing to To Do',
+        date: 'yesterday at 5:05 PM',
+      },
+    ],
+  },
+  {
+    id: '9',
+    title: 'Do Laundry',
+    def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
+    labels: [{ color: 'blue', title: 'home' }],
+    activity: [],
+  },
+  {
+    id: '12',
+    title: 'DB Migration',
+    def: 'To migrate the DB',
+    labels: [{ color: 'red', title: 'backend' }],
+    activity: [
+      {
+        member: 'me',
+        action: 'moved this card from Doing to To Do',
+        date: 'yesterday at 5:05 PM',
+      },
+    ],
+  },
 ]
 
 const CARDS_DONE = [

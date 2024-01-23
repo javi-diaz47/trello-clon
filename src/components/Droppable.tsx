@@ -30,7 +30,7 @@ export function Droppable({ id, children, disabled }: Droppable) {
       ref={setNodeRef}
       className={`${
         cardOver ? 'ring-sky-500' : 'ring-transparent'
-      }   relative w-full h-full  ring-2 rounded-b-3xl `}>
+      }  relative h-full w-full  ring-2 overflow-scroll `}>
       {children}
     </div>
   )

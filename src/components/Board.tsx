@@ -49,14 +49,17 @@ export default function Board() {
       <div className="w-full min-h-[6rem]">
         <button onClick={handleClick}>Add list</button>
       </div>
-      <div className="w-full h-full bg-light-gray rounded-3xl mr-16 mb-8">
+      <div className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
+        <div>
+          <h2 className="text-4xl font-bold ">{board.title}</h2>
+        </div>
         <DndContext
           sensors={sensors}
           onDragStart={onDragStart}
           onDragOver={onDragOver}
           onDragEnd={onDragEnd}>
           <SortableContext items={listsIds}>
-            <section className="h-full flex overflow-scroll relative rounded-2xl p-8 gap-12">
+            <section className="h-[calc(100vh-18rem)]  flex overflow-scroll relative rounded-2xl  gap-12">
               {board.lists.map((list) => (
                 <List key={list.id} list={list} boardId={board.id} />
               ))}

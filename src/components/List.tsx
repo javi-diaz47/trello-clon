@@ -33,23 +33,23 @@ function List({ list, boardId }: ListProps) {
     <div
       ref={setNodeRef}
       style={style}
-      className="relative flex flex-col  border rounded-3xl border-neutral-700 w-full min-h-96 max-h-full min-w-[20rem] max-w-xs ">
-      <header {...attributes} {...listeners}>
+      className="relative flex flex-col  border rounded-3xl border-neutral-700 w-full min-h-96 max-h-full min-w-[20rem] max-w-xs grid-rows-12">
+      <header className="row-span-1" {...attributes} {...listeners}>
         <ListHeader list={list} />
       </header>
-      <div className=" h-full ">
-        <Droppable id={list.id} disabled={!!list.cards.length}>
-          <ul className="px-7 py-4 h-full flex flex-col gap-4">
+      <Droppable id={list.id} disabled={!!list.cards.length}>
+        <div className=" h-full ">
+          <ul className="px-7 py-4 h-full flex flex-col gap-4 ">
             <SortableContext items={cardsIds}>
               {list.cards.map((card) => (
                 <Card key={card.id} card={card} />
               ))}
             </SortableContext>
           </ul>
-          <div className="absolute bottom-0 w-full rounded-b-3xl">
-            <ButtonAddCard boardId={boardId} listId={list.id} />
-          </div>
-        </Droppable>
+        </div>
+      </Droppable>
+      <div className="row-span-12 w-full rounded-b-3xl">
+        <ButtonAddCard boardId={boardId} listId={list.id} />
       </div>
     </div>
   )
