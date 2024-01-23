@@ -34,7 +34,7 @@ export const useKanbanBoard = (
 
     let overId = ev.over.id.toString()
 
-    // Move a card to an empty list
+    // Move a card to another list
 
     if (overId.includes('Droppable')) {
       overId = overId.slice('Droppable-'.length)
@@ -55,7 +55,7 @@ export const useKanbanBoard = (
       if (!!from) {
         // card dropped in another list
         if (from.listIndex !== toListIndex && activeCard) {
-          const newCards = [activeCard]
+          const newCards = [...board.lists[toListIndex].cards, activeCard]
 
           const newLists = board.lists
           newLists[from.listIndex].cards.splice(from.cardIndex, 1)
