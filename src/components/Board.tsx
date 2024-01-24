@@ -32,6 +32,8 @@ export default function Board() {
   const { activeCard, activeList, onDragEnd, onDragOver, onDragStart } =
     useKanbanBoard(board, updateBoardLists)
 
+  const isActive = useMemo(() => Boolean(activeCard?.id), [activeCard])
+
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -61,7 +63,12 @@ export default function Board() {
           <SortableContext items={listsIds}>
             <section className="h-[calc(100vh-18rem)]  flex overflow-scroll relative rounded-2xl  gap-12">
               {board.lists.map((list) => (
-                <List key={list.id} list={list} boardId={board.id} />
+                <List
+                  key={list.id}
+                  list={list}
+                  boardId={board.id}
+                  active={isActive}
+                />
               ))}
             </section>
             {typeof window === 'object' &&

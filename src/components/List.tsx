@@ -11,13 +11,18 @@ import { ListHeader } from './ListHeader'
 interface ListProps {
   list: TList
   boardId: UniqueIdentifier
+  active: boolean
 }
 
-function List({ list, boardId }: ListProps) {
-  const cardsIds = useMemo(() => list.cards.map(({ id }) => id), [list.cards])
+function List({ list, boardId, active }: ListProps) {
+  const cardsIds = useMemo(() => {
+    return list.cards.map(({ id }) => id)
+  }, [list.cards])
 
   const { attributes, isDragging, listeners, setNodeRef, style } =
     useSortableProvider(list.id, 'list', 'list', list)
+
+  console.log(active)
 
   if (isDragging) {
     return (
@@ -38,11 +43,11 @@ function List({ list, boardId }: ListProps) {
         <ListHeader list={list} />
       </header>
       <Droppable id={list.id} disabled={!!list.cards.length}>
-        <div className=" h-full ">
+        <div className="h-full">
           <ul className="px-7 py-4 h-full flex flex-col gap-4 ">
             <SortableContext items={cardsIds}>
               {list.cards.map((card) => (
-                <Card key={card.id} card={card} />
+                <Card key={card.id} card={card} active={active} />
               ))}
             </SortableContext>
           </ul>
