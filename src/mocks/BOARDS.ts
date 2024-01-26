@@ -1,93 +1,71 @@
-import { Board, Card, List } from '../types/app'
+import { Board } from '../types/app'
 
-const CARDS: Card[] = [
-  {
-    id: '2',
-    title: 'Do Laundry',
-    def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
-    labels: [{ color: 'blue', title: 'home' }],
-    activity: [],
-  },
-  {
-    id: '1',
-    title: 'DB Migration',
-    def: 'To migrate the DB',
-    labels: [{ color: 'red', title: 'backend' }],
-    activity: [
-      {
-        member: 'me',
-        action: 'moved this card from Doing to To Do',
-        date: 'yesterday at 5:05 PM',
+export const BOARDS: Board = {
+  id: 'Board-1',
+  title: 'To do App',
+  lists: {
+    'List-1': {
+      id: 'List-1',
+      title: 'To do',
+      cards: {
+        'Card-1': {
+          id: 'Card-1',
+          title: 'Do Laundry',
+          def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
+          labels: [{ color: 'blue', title: 'home' }],
+          activity: [],
+        },
+
+        'Card-2': {
+          id: 'Card-2',
+          title: 'DB Migration',
+          def: 'To migrate the DB',
+          labels: [{ color: 'red', title: 'backend' }],
+          activity: [
+            {
+              member: 'me',
+              action: 'moved this card from Doing to To Do',
+              date: 'yesterday at 5:05 PM',
+            },
+          ],
+        },
+
+        'Card-3': {
+          id: 'Card-3',
+          title: 'DB Migration',
+          def: 'To migrate the DB',
+          labels: [{ color: 'red', title: 'backend' }],
+          activity: [
+            {
+              member: 'me',
+              action: 'moved this card from Doing to To Do',
+              date: 'yesterday at 5:05 PM',
+            },
+          ],
+        },
       },
-    ],
-  },
-  {
-    id: '3',
-    title: 'Do Laundry',
-    def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
-    labels: [{ color: 'blue', title: 'home' }],
-    activity: [],
-  },
-  {
-    id: '5',
-    title: 'DB Migration',
-    def: 'To migrate the DB',
-    labels: [{ color: 'red', title: 'backend' }],
-    activity: [
-      {
-        member: 'me',
-        action: 'moved this card from Doing to To Do',
-        date: 'yesterday at 5:05 PM',
+      cardsOrder: ['Card-1', 'Card-2', 'Card-3'],
+    },
+    'List-2': {
+      id: 'List-2',
+      title: 'Done',
+      cards: {
+        'Card-4': {
+          id: 'Card-4',
+          title: 'DB Migration',
+          def: 'To migrate the DB',
+          labels: [{ color: 'red', title: 'backend' }],
+          activity: [
+            {
+              member: 'me',
+              action: 'moved this card from Doing to To Do',
+              date: 'yesterday at 5:05 PM',
+            },
+          ],
+        },
       },
-    ],
+      cardsOrder: ['Card-1', 'Card-2', 'Card-3'],
+    },
   },
-  {
-    id: '9',
-    title: 'Do Laundry',
-    def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
-    labels: [{ color: 'blue', title: 'home' }],
-    activity: [],
-  },
-  {
-    id: '12',
-    title: 'DB Migration',
-    def: 'To migrate the DB',
-    labels: [{ color: 'red', title: 'backend' }],
-    activity: [
-      {
-        member: 'me',
-        action: 'moved this card from Doing to To Do',
-        date: 'yesterday at 5:05 PM',
-      },
-    ],
-  },
-]
-
-const CARDS_DONE = [
-  {
-    id: '4',
-    title: 'Learn Japanese',
-    def: '',
-    labels: [{ color: 'blue', title: 'home' }],
-    activity: [],
-  },
-]
-
-const LISTS: List[] = [
-  { id: 'bf2e7985-acc3-42af-8ab6-937738cdcd7a', cards: CARDS, title: 'To Do' },
-
-  {
-    id: '81d634c0-54ff-472c-8a69-3e0451169383',
-    cards: CARDS_DONE,
-    title: 'Done',
-  },
-]
-
-export const BOARDS: Board[] = [
-  // { id: crypto.randomUUID(), title: 'To Do APP', lists: LISTS },
-  {
-    id: '69797b37-26a3-49a7-a5d1-9b295f8587f0',
-    title: 'To Do APP',
-    lists: LISTS,
-  },
-]
+  listsOrder: ['List-1', 'List-2'],
+}
