@@ -1,15 +1,29 @@
-import { UniqueIdentifier } from '@dnd-kit/core'
+const PREFIXES = {
+  board: 'Board',
+  list: 'List',
+  card: 'Card',
+} as const
+
+type Prefixes = (typeof PREFIXES)[keyof typeof PREFIXES]
+
+type Id<P extends Prefixes> = `${P}-${string}`
+
+type BoardId = Id<'Board'>
+type ListId = Id<'List'>
+type CardId = Id<'Card'>
 
 export interface Board {
-  id: UniqueIdentifier
+  id: BoardId
   title: string
-  lists: List[]
+  lists: Record<ListId, List>
+  listsOrder: ListId[]
 }
 
 export interface List {
-  id: UniqueIdentifier
+  id: ListId
   title: string
-  cards: Card[]
+  cards: Record<CardId, Card>
+  cardsOrder: CardId[]
 }
 
 export interface Label {
@@ -24,7 +38,7 @@ export interface Activity {
 }
 
 export interface Card {
-  id: UniqueIdentifier
+  id: CardId
   title: string
   def?: string
   labels?: Label[]
