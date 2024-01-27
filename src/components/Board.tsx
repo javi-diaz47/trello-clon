@@ -123,17 +123,18 @@ export default function Board() {
               <section
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="h-[calc(100vh-18rem)] flex  relative rounded-2xl  ">
+                className="h-[calc(100vh-18rem)] flex   rounded-2xl overflow-scroll">
                 {board.listsOrder.map((id, i) => (
                   <Draggable key={id} draggableId={id} index={i}>
-                    {(provided) => (
+                    {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
-                        className="mr-8 ">
+                        className="mr-8">
                         <List
                           key={id}
                           list={board.lists[id]}
+                          isDragging={snapshot.isDragging}
                           providedDragHandleProps={provided.dragHandleProps}
                         />
                       </div>

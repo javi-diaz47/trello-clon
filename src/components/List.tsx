@@ -10,12 +10,16 @@ import { ListHeader } from './ListHeader'
 
 interface ListProps {
   list: TList
+  isDragging: boolean
   providedDragHandleProps: DraggableProvidedDragHandleProps | null | undefined
 }
 
-function List({ list, providedDragHandleProps }: ListProps) {
+function List({ list, isDragging, providedDragHandleProps }: ListProps) {
   return (
-    <div className="relative flex flex-col  border rounded-3xl border-neutral-700 w-full max-h-full min-w-[20rem] max-w-xs grid-rows-12">
+    <div
+      className={`${isDragging ? 'border-blue-500' : 'border-neutral-700'}
+    relative flex flex-col  border rounded-3xl  w-full max-h-full min-w-[20rem] max-w-xs grid-rows-12
+    `}>
       <header {...providedDragHandleProps} className="row-span-1">
         <ListHeader list={list} />
       </header>
