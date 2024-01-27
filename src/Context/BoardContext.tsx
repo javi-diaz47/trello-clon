@@ -1,7 +1,15 @@
 'use client'
 
 import { BOARDS } from '@/mocks/BOARDS'
-import { Board, Card, CardId, List, ListId, PartialWithId } from '@/types/app'
+import {
+  Board,
+  BoardId,
+  Card,
+  CardId,
+  List,
+  ListId,
+  PartialWithId,
+} from '@/types/app'
 import { genUUID } from '@/utils/genUUID'
 import { createContext, useState } from 'react'
 
@@ -21,11 +29,13 @@ interface BoardContext {
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
 
 export const BoardContextProvider = ({
+  id,
   children,
 }: {
+  id: BoardId
   children: React.ReactNode
 }) => {
-  const [board, setBoard] = useState<Board>(BOARDS)
+  const [board, setBoard] = useState<Board>(BOARDS.boards[id])
 
   const updateBoard = (updateBoard: PartialWithId<Board>) => {
     const newBoard = {

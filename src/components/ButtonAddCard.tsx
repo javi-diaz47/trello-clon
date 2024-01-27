@@ -1,8 +1,9 @@
+'use client'
+
 import { useBoards } from '@/Hooks/useBoards'
 import { CloseIcon } from '@/icons/CloseIcon'
 import { PlusIcon } from '@/icons/PlusIcon'
 import { ListId } from '@/types/app'
-import { UniqueIdentifier } from '@dnd-kit/core'
 import { useState } from 'react'
 
 interface ButtonAddCard {

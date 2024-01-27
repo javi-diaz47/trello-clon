@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { BoardContextProvider } from '@/Context/BoardContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,10 +15,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <BoardContextProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    </BoardContextProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <main className="grid grid-cols-[6rem_1fr] w-full h-full min-h-screen  bg-light-white text-text dark:bg-dark-gray dark:text-light-white ">
+          <nav className=" w-full"></nav>
+          <div className="flex flex-col w-full pr-8 gap-4 overflow-hidden">
+            <div className="w-full min-h-[6rem]">
+              <h2 className="text-2xl font-bold">Trello Clon</h2>
+            </div>
+            {children}
+          </div>
+        </main>
+      </body>
+    </html>
   )
 }

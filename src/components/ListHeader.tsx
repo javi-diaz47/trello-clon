@@ -1,3 +1,5 @@
+'use client'
+
 import { useBoards } from '@/Hooks/useBoards'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
@@ -76,16 +78,16 @@ export function ListHeader({ list }: ListHeader) {
         className={`list-menu ${
           onMenu ? 'visible' : 'hidden'
         } absolute bg-dark-gray rounded-lg p-4 z-10 top-10 right-16`}>
-        <ul className="list-none grid gap-2">
-          <li className="hover:bg-light-gray px-2 rounded-md">
+        <section className="list-none grid gap-2">
+          <article className="hover:bg-light-gray px-2 rounded-md">
             <button aria-label="remove list" onClick={handleRemoveList}>
               Remove
             </button>
-          </li>
-          <li className="hover:bg-light-gray px-2 rounded-md">
+          </article>
+          <article className="hover:bg-light-gray px-2 rounded-md">
             <button aria-label="sort cards by date">Sort by date</button>
-          </li>
-        </ul>
+          </article>
+        </section>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
-import { Board } from '../types/app'
+import { Board, BoardId, Boards } from '../types/app'
 
-export const BOARDS: Board = {
+const BOARD_1: Board = {
   id: 'Board-1',
   title: 'To do App',
   lists: {
@@ -68,4 +68,60 @@ export const BOARDS: Board = {
     },
   },
   listsOrder: ['List-1', 'List-2'],
+}
+
+const BOARD_2: Board = {
+  id: 'Board-2',
+  title: 'Updated To Do App',
+  lists: {
+    'List-3': {
+      id: 'List-3',
+      title: 'Doing',
+      cards: {
+        'Card-5': {
+          id: 'Card-5',
+          title: 'Write Code',
+          def: 'Start coding for the new feature',
+          labels: [{ color: 'green', title: 'frontend' }],
+          activity: [
+            {
+              member: 'you',
+              action: 'created this card',
+              date: 'today at 10:30 AM',
+            },
+          ],
+        },
+      },
+      cardsOrder: ['Card-5'],
+    },
+    'List-4': {
+      id: 'List-4',
+      title: 'Review',
+      cards: {
+        'Card-6': {
+          id: 'Card-6',
+          title: 'Code Review',
+          def: 'Review the code changes for QA',
+          labels: [{ color: 'purple', title: 'QA' }],
+          activity: [
+            {
+              member: 'you',
+              action: 'created this card',
+              date: 'today at 2:45 PM',
+            },
+          ],
+        },
+      },
+      cardsOrder: ['Card-6'],
+    },
+  },
+  listsOrder: ['List-3', 'List-4'],
+}
+
+export const BOARDS: Boards = {
+  boards: {
+    'Board-1': BOARD_1,
+    'Board-2': BOARD_2,
+  },
+  boardsOrder: ['Board-1', 'Board-2'],
 }

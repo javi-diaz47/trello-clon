@@ -2,7 +2,7 @@ import { CardSkeleton } from './CardSkeleton'
 
 function ListSkeleton() {
   return (
-    <div className="relative animate-pulse border rounded-3xl border-neutral-700 w-full h-screen max-w-xs  ">
+    <div className="relative min-w-[20rem] max-w-xs   animate-pulse border rounded-3xl border-neutral-700 w-full h-fit mr-8">
       <header className="w-full px-6 py-4 flex justify-between border border-t-0 border-gray-600 border-x-0">
         <div className="w-full flex items-center gap-2 mr-4">
           <div className=" w-3 aspect-square bg-light-white rounded-full"></div>
@@ -19,17 +19,15 @@ function ListSkeleton() {
       </header>
 
       <section>
-        <ul className=" px-4 py-4 h-full flex flex-col gap-4">
+        <ul className="max-h-[calc(80vh-20rem)] px-4 py-4 h-full flex flex-col gap-4 ">
           {Array(5)
             .fill(0)
             .map((_, i) => (
               <CardSkeleton key={i} />
             ))}
-          <li>
-            <div className="w-full h-6 bg-gray-600 rounded-lg"></div>
-          </li>
         </ul>
       </section>
+      <div className="absolute bottom-0 w-full rounded-b-3xl h-12 bg-gray-600"></div>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 'use client'
-
 import { useBoards } from '@/Hooks/useBoards'
 import { List } from './List'
 import {
@@ -8,7 +7,7 @@ import {
   DropResult,
   Droppable,
 } from 'react-beautiful-dnd'
-import { CardId, List as TList, ListId, Card } from '@/types/app'
+import { CardId, List as TList, ListId } from '@/types/app'
 
 export default function Board() {
   const { board, addList, updateCardsOrder, updateBoard } = useBoards()
@@ -109,11 +108,8 @@ export default function Board() {
   }
 
   return (
-    <div className="flex flex-col w-full pr-8 gap-4 overflow-hidden">
-      <div className="w-full min-h-[6rem]">
-        <button onClick={handleClick}>Add list</button>
-      </div>
-      <div className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
+    <div className="flex flex-col w-full gap-4 overflow-hidden">
+      <section className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
         <div>
           <h2 className="text-4xl font-bold ">{board.title}</h2>
         </div>
@@ -123,11 +119,11 @@ export default function Board() {
               <section
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className="h-[calc(100vh-18rem)] flex   rounded-2xl overflow-scroll">
+                className="h-[calc(100vh-18rem)] flex rounded-2xl overflow-x-scroll">
                 {board.listsOrder.map((id, i) => (
                   <Draggable key={id} draggableId={id} index={i}>
                     {(provided, snapshot) => (
-                      <div
+                      <article
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         className="mr-8">
@@ -137,7 +133,7 @@ export default function Board() {
                           isDragging={snapshot.isDragging}
                           providedDragHandleProps={provided.dragHandleProps}
                         />
-                      </div>
+                      </article>
                     )}
                   </Draggable>
                 ))}
@@ -146,7 +142,9 @@ export default function Board() {
             )}
           </Droppable>
         </DragDropContext>
-      </div>
+      </section>
+
+      <button onClick={handleClick}>Add list</button>
     </div>
   )
 }

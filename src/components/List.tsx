@@ -23,30 +23,30 @@ function List({ list, isDragging, providedDragHandleProps }: ListProps) {
       <header {...providedDragHandleProps} className="row-span-1">
         <ListHeader list={list} />
       </header>
-      <div className="h-full">
+      <div className="min-h-24 max-h-[calc(90vh-20rem)] overflow-y-scroll">
         <Droppable droppableId={list.id} type="Card">
           {(provided, snapshot) => (
-            <ul
+            <section
               ref={provided.innerRef}
               {...provided.droppableProps}
               className={`${
                 snapshot.isDraggingOver ? 'border border-blue-500' : ''
-              } px-7 py-4 min-h-24 max-h-[calc(90vh-20rem)] overflow-scroll`}>
+              } px-7 py-4  `}>
               {list.cardsOrder.map((id, i) => (
                 <Draggable key={id} draggableId={id} index={i}>
                   {(provided) => (
-                    <div
+                    <article
                       ref={provided.innerRef}
                       {...provided.dragHandleProps}
                       {...provided.draggableProps}
                       className="mb-4">
                       <Card card={list.cards[id]} />
-                    </div>
+                    </article>
                   )}
                 </Draggable>
               ))}
               {provided.placeholder}
-            </ul>
+            </section>
           )}
         </Droppable>
       </div>

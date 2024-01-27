@@ -12,6 +12,11 @@ type BoardId = Id<'Board'>
 type ListId = Id<'List'>
 type CardId = Id<'Card'>
 
+export interface Boards {
+  boards: Record<BoardId, Board>
+  boardsOrder: BoardId[]
+}
+
 export interface Board {
   id: BoardId
   title: string
