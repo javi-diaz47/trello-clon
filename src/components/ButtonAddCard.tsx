@@ -1,15 +1,15 @@
 import { useBoards } from '@/Hooks/useBoards'
 import { CloseIcon } from '@/icons/CloseIcon'
 import { PlusIcon } from '@/icons/PlusIcon'
+import { ListId } from '@/types/app'
 import { UniqueIdentifier } from '@dnd-kit/core'
 import { useState } from 'react'
 
 interface ButtonAddCard {
-  boardId: UniqueIdentifier
-  listId: UniqueIdentifier
+  listId: ListId
 }
 
-function ButtonAddCard({ boardId, listId }: ButtonAddCard) {
+function ButtonAddCard({ listId }: ButtonAddCard) {
   const { addCard } = useBoards()
 
   const handleAddCard = (ev: React.FormEvent<HTMLFormElement>) => {

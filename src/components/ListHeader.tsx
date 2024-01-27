@@ -9,7 +9,7 @@ interface ListHeader {
 }
 
 export function ListHeader({ list }: ListHeader) {
-  const { removeList, updateListById } = useBoards()
+  const { updateList, removeList } = useBoards()
 
   const [onMenu, setOnMenu] = useState(false)
   const [isChangeTitle, setIsChangeTitle] = useState(false)
@@ -21,9 +21,9 @@ export function ListHeader({ list }: ListHeader) {
     }
 
     if (title.length) {
-      const newList = { ...list, title: title.trim() }
+      const newList = { title: title.trim() }
 
-      updateListById(list.id, newList)
+      updateList({ id: list.id, ...newList })
     }
     setIsChangeTitle(false)
   }

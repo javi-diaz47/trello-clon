@@ -1,20 +1,20 @@
 'use client'
 
 import { BOARDS } from '@/mocks/BOARDS'
-import { Board, List } from '@/types/app'
-import type { UniqueIdentifier } from '@/types/utils'
+import { Board, Card, CardId, List, ListId, PartialWithId } from '@/types/app'
 import { genUUID } from '@/utils/genUUID'
-import { getIndex } from '@/utils/getIndex'
 import { createContext, useState } from 'react'
 
 interface BoardContext {
   board: Board
-  updateBoardLists: (lists: List[]) => void
-  updateListById: (id: UniqueIdentifier, newList: List) => void
-  addList: (listTitle: string) => void
-  removeList: (id: UniqueIdentifier) => void
-  addCard: (listId: UniqueIdentifier, title: string) => void
-  removeCard: (listId: UniqueIdentifier, cardId: UniqueIdentifier) => void
+  addList: (title: string) => void
+  removeList: (id: ListId) => void
+  updateList: (newList: PartialWithId<List>) => void
+  updateListsOrder: (newListsOrder: ListId[]) => void
+  addCard: (listId: ListId, title: string) => void
+  removeCard: (listId: ListId, cardId: CardId) => void
+  updateCard: (listId: ListId, card: PartialWithId<Card>) => void
+  updateCardsOrder: (listId: ListId, newCardsOrder: CardId[]) => void
 }
 
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
@@ -24,66 +24,118 @@ export const BoardContextProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const [board, setBoard] = useState<Board>(BOARDS[0])
+  const [board, setBoard] = useState<Board>(BOARDS)
 
-  const updateListById = (id: UniqueIdentifier, newList: List) => {
-    const listIndex = getIndex(board.lists, id)
+  const updateList = (newList: PartialWithId<List>) => {
+    const newBoard = {
+      ...board,
+      lists: {
+        ...board.lists,
+        [newList.id]: {
+          ...board.lists[newList.id],
+          ...newList,
+        },
+      },
+    }
+
+    setBoard(newBoard)
+
+    console.log('NEWWWWWW')
+    console.log(newBoard)
+  }
+
+  const updateCard = (listId: ListId, card: PartialWithId<Card>) => {
+    const newCard = {
+      ...board.lists[listId].cards[card.id],
+      ...card,
+    }
 
     const newBoard = { ...board }
 
-    newBoard.lists[listIndex] = newList
+    newBoard.lists[listId].cards[card.id] = newCard
 
     setBoard(newBoard)
   }
 
-  const updateBoardLists = (newLists: List[]) => {
-    const newBoard = {
+  const updateListsOrder = (newListsOrder: ListId[]) => {
+    const newBoard: Board = { ...board }
+
+    newBoard.listsOrder = newListsOrder
+
+    setBoard(newBoard)
+  }
+
+  const updateCardsOrder = (listId: ListId, newCardsOrder: CardId[]) => {
+    const newBoard: Board = { ...board }
+
+    newBoard.lists[listId].cardsOrder = newCardsOrder
+
+    setBoard(newBoard)
+  }
+
+  const addList = (title: string) => {
+    const newList: List = {
+      id: `List-${genUUID()}`,
+      title,
+      cards: {},
+      cardsOrder: [],
+    }
+
+    const newBoard = { ...board }
+
+    newBoard.lists = {
+      ...newBoard.lists,
+      [newList.id]: newList,
+    }
+
+    newBoard.listsOrder.push(newList.id)
+
+    setBoard(newBoard)
+  }
+
+  const removeList = (listId: ListId) => {
+    const { [listId]: removedList, ...newLists } = board.lists
+
+    const newBoard: Board = {
       ...board,
       lists: newLists,
+      listsOrder: board.listsOrder.filter((id) => id !== listId),
     }
 
     setBoard(newBoard)
   }
 
-  const addList = (listTitle: string) => {
-    const newBoard = { ...board }
+  const addCard = (listId: ListId, title: string) => {
+    const newCard: Card = {
+      id: `Card-${genUUID()}`,
+      title,
+    }
 
-    newBoard.lists.push({
-      id: genUUID(),
-      title: listTitle,
-      cards: [],
-    })
+    const newBoard: Board = {
+      ...board,
+    }
 
-    setBoard(newBoard)
-  }
+    newBoard.lists[listId].cards = {
+      ...newBoard.lists[listId].cards,
+      [newCard.id]: newCard,
+    }
 
-  const removeList = (listId: UniqueIdentifier) => {
-    const newBoard = { ...board }
-
-    newBoard.lists = newBoard.lists.filter((list) => list.id !== listId)
-
-    setBoard(newBoard)
-  }
-
-  const addCard = (listId: UniqueIdentifier, cardTitle: string) => {
-    const listIndex = getIndex(board.lists, listId)
-
-    const newBoard = { ...board }
-
-    newBoard.lists[listIndex].cards.push({
-      id: genUUID(),
-      title: cardTitle,
-    })
+    newBoard.lists[listId].cardsOrder.push(newCard.id)
 
     setBoard(newBoard)
   }
 
-  const removeCard = (listId: UniqueIdentifier, cardId: UniqueIdentifier) => {
-    const listIndex = getIndex(board.lists, listId)
-    const newBoard = { ...board }
+  const removeCard = (listId: ListId, cardId: CardId) => {
+    const { [cardId]: removedCard, ...newCards } = board.lists[listId].cards
 
-    newBoard.lists[listIndex].cards = newBoard.lists[listIndex].cards.filter(
-      (card) => card.id !== cardId
+    const newBoard: Board = {
+      ...board,
+    }
+
+    newBoard.lists[listId].cards = newCards
+
+    newBoard.lists[listId].cardsOrder = board.lists[listId].cardsOrder.filter(
+      (id) => id !== cardId
     )
 
     setBoard(newBoard)
@@ -93,12 +145,14 @@ export const BoardContextProvider = ({
     <BoardContext.Provider
       value={{
         board,
-        updateBoardLists,
-        updateListById,
         addList,
         removeList,
+        updateList,
+        updateListsOrder,
         addCard,
         removeCard,
+        updateCard,
+        updateCardsOrder,
       }}>
       {children}
     </BoardContext.Provider>

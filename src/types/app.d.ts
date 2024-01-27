@@ -48,3 +48,7 @@ export interface Card {
 export interface Icon {
   className?: string
 }
+
+export type PartialWithId<T extends { id: Id<Prefixes> }> = Partial<T> & {
+  id: T.id
+}

@@ -64,7 +64,7 @@ export const BOARDS: Board = {
           ],
         },
       },
-      cardsOrder: ['Card-1', 'Card-2', 'Card-3'],
+      cardsOrder: ['Card-4'],
     },
   },
   listsOrder: ['List-1', 'List-2'],
