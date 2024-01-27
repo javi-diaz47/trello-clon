@@ -15,7 +15,7 @@ function List({ list }: ListProps) {
         <ListHeader list={list} />
       </header>
       <div className="h-full">
-        <Droppable droppableId={list.id}>
+        <Droppable droppableId={list.id} type="Card">
           {(provided) => (
             <ul
               ref={provided.innerRef}

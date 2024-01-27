@@ -2,7 +2,12 @@
 
 import { useBoards } from '@/Hooks/useBoards'
 import { List } from './List'
-import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import {
+  DragDropContext,
+  Draggable,
+  DropResult,
+  Droppable,
+} from 'react-beautiful-dnd'
 import { CardId, List as TList, ListId, Card } from '@/types/app'
 
 export default function Board() {
@@ -13,7 +18,7 @@ export default function Board() {
   }
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination, draggableId } = result
+    const { source, destination, draggableId, type } = result
 
     if (!destination?.droppableId) return
 
@@ -22,6 +27,20 @@ export default function Board() {
       source.index === destination.index
     )
       return
+
+    // Move a list
+
+    if (type === 'List') {
+      const newListsOrder = Array.from(board.listsOrder)
+
+      newListsOrder.splice(source.index, 1)
+
+      newListsOrder.splice(destination.index, 0, draggableId as ListId)
+
+      updateBoard({ id: board.id, listsOrder: newListsOrder })
+
+      return
+    }
 
     const startId = source.droppableId as ListId
     const endId = destination.droppableId as ListId
@@ -99,11 +118,29 @@ export default function Board() {
           <h2 className="text-4xl font-bold ">{board.title}</h2>
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
-          <section className="h-[calc(100vh-18rem)]  flex overflow-scroll relative rounded-2xl  gap-12">
-            {board.listsOrder.map((id) => (
-              <List key={id} list={board.lists[id]} />
-            ))}
-          </section>
+          <Droppable droppableId={board.id} type="List" direction="horizontal">
+            {(provided) => (
+              <section
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="h-[calc(100vh-18rem)] flex overflow-scroll relative rounded-2xl  ">
+                {board.listsOrder.map((id, i) => (
+                  <Draggable key={id} draggableId={id} index={i}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="mr-8">
+                        <List key={id} list={board.lists[id]} />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </section>
+            )}
+          </Droppable>
         </DragDropContext>
       </div>
     </div>
