@@ -1,11 +1,8 @@
 import { BoardContextProvider } from '@/Context/BoardContext'
-import { BoardSkeleton } from '@/components/skeletons/BoardSkeleton'
+import Board from '@/components/Board'
 import { BoardId } from '@/types/app'
-import dynamic from 'next/dynamic'
-
-const DynamicBoard = dynamic(() => import('@/components/Board'), {
-  loading: () => <BoardSkeleton />,
-})
+import { Suspense } from 'react'
+import Loading from '../loading'
 
 export default function Page({ params }: { params: { id: string } }) {
   if (!params.id.startsWith('Board-')) {
@@ -17,8 +14,10 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <BoardContextProvider id={params.id as BoardId}>
-      <DynamicBoard />
-    </BoardContextProvider>
+    <Suspense fallback={<Loading />}>
+      <BoardContextProvider id={params.id as BoardId}>
+        <Board />
+      </BoardContextProvider>
+    </Suspense>
   )
 }

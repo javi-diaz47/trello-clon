@@ -10,10 +10,13 @@ export default function Home() {
           {BOARDS.boardsOrder.map((id) => (
             <div
               key={id}
-              className="w-32 h-12 bg-neutral-900 rounded-lg text-lg flex items-center p-2">
+              className="w-32 h-12 bg-neutral-950 rounded-lg text-lg flex items-center p-2">
               <Link href={`boards/${id}`}>{id}</Link>
             </div>
           ))}
+          <div className="min-w-32 bg-neutral-900 rounded-lg text-lg flex items-center p-2">
+            <button>Create new Board</button>
+          </div>
         </section>
       </div>
     </section>
