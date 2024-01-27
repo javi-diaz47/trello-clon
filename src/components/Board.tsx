@@ -1,86 +1,57 @@
 'use client'
 
 import { useBoards } from '@/Hooks/useBoards'
-import {
-  DndContext,
-  DragOverlay,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import { SortableContext } from '@dnd-kit/sortable'
 import { List } from './List'
-import { useEffect, useMemo, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { DragListOverlay } from './dragOverlays/DragListOverlay'
-import { DragCardOverlay } from './dragOverlays/DragCardOverlay'
-import { useKanbanBoard } from '@/Hooks/useKanbanBoard'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import { CardId, List as TList, ListId } from '@/types/app'
 
 export default function Board() {
   const { board, addList, updateCardsOrder } = useBoards()
-
-  // const listsIds = useMemo(() => board.lists.map(({ id }) => id), [board])
-
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor, {
-  //     activationConstraint: {
-  //       distance: 10,
-  //     },
-  //   })
-  // )
-
-  // const { activeCard, activeList, onDragEnd, onDragOver, onDragStart } =
-  //   useKanbanBoard(board, updateBoardLists)
-
-  // const isActive = useMemo(() => Boolean(activeCard?.id), [activeCard])
-
-  // const [isMounted, setIsMounted] = useState(false)
-
-  // useEffect(() => {
-  //   setIsMounted(true)
-  // }, [])
-
-  // if (!isMounted) return null
 
   const handleClick = () => {
     addList('new')
   }
 
-  const updateCard = () => {
-    updateCardsOrder('List-1', ['Card-2', 'Card-1', 'Card-3'])
+  const onDragEnd = (result: DropResult) => {
+    const { source, destination, draggableId } = result
+
+    if (!destination?.droppableId) return
+
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return
+
+    // Move a card in the same list
+
+    const currList = board.lists[destination.droppableId as ListId]
+
+    const newCardsOrder = Array.from(currList.cardsOrder)
+
+    newCardsOrder.splice(source.index, 1)
+
+    newCardsOrder.splice(destination.index, 0, draggableId as CardId)
+
+    updateCardsOrder(destination.droppableId as ListId, newCardsOrder)
   }
 
   return (
     <div className="flex flex-col w-full pr-8 gap-4 overflow-hidden">
       <div className="w-full min-h-[6rem]">
         <button onClick={handleClick}>Add list</button>
-        <button onClick={updateCard}>Update Card</button>
       </div>
       <div className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
         <div>
           <h2 className="text-4xl font-bold ">{board.title}</h2>
         </div>
-        {/* <DndContext
-          sensors={sensors}
-          onDragStart={onDragStart}
-          onDragOver={onDragOver}
-          onDragEnd={onDragEnd}> */}
-        {/* <SortableContext items={listsIds}> */}
-        <section className="h-[calc(100vh-18rem)]  flex overflow-scroll relative rounded-2xl  gap-12">
-          {board.listsOrder.map((id) => (
-            <List key={id} list={board.lists[id]} />
-          ))}
-        </section>
-        {/* {typeof window === 'object' &&
-              createPortal(
-                <DragOverlay>
-                  {activeList && <DragListOverlay list={activeList} />}
-                  {activeCard && <DragCardOverlay card={activeCard} />}
-                </DragOverlay>,
-                document.body
-              )}
-        {/* </SortableContext> */}
-        {/* </DndContext> */}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <section className="h-[calc(100vh-18rem)]  flex overflow-scroll relative rounded-2xl  gap-12">
+            {board.listsOrder.map((id) => (
+              <List key={id} list={board.lists[id]} />
+            ))}
+          </section>
+        </DragDropContext>
       </div>
     </div>
   )
