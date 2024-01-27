@@ -3,10 +3,10 @@
 import { useBoards } from '@/Hooks/useBoards'
 import { List } from './List'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
-import { CardId, List as TList, ListId } from '@/types/app'
+import { CardId, List as TList, ListId, Card } from '@/types/app'
 
 export default function Board() {
-  const { board, addList, updateCardsOrder } = useBoards()
+  const { board, addList, updateCardsOrder, updateBoard } = useBoards()
 
   const handleClick = () => {
     addList('new')
@@ -23,17 +23,70 @@ export default function Board() {
     )
       return
 
+    const startId = source.droppableId as ListId
+    const endId = destination.droppableId as ListId
+    const cardId = draggableId as CardId
+
     // Move a card in the same list
 
-    const currList = board.lists[destination.droppableId as ListId]
+    if (startId === endId) {
+      const currList = board.lists[endId]
 
-    const newCardsOrder = Array.from(currList.cardsOrder)
+      const newCardsOrder = Array.from(currList.cardsOrder)
 
-    newCardsOrder.splice(source.index, 1)
+      newCardsOrder.splice(source.index, 1)
 
-    newCardsOrder.splice(destination.index, 0, draggableId as CardId)
+      newCardsOrder.splice(destination.index, 0, cardId)
 
-    updateCardsOrder(destination.droppableId as ListId, newCardsOrder)
+      updateCardsOrder(endId, newCardsOrder)
+      return
+    }
+
+    // Move a card to another list
+
+    //-> remove card from start list
+    const startList: TList = board.lists[startId]
+
+    const { [cardId]: removedCard, ...newStartListCards } = startList.cards
+
+    const newStartListCardsOrder = Array.from(startList.cardsOrder)
+    newStartListCardsOrder.splice(source.index, 1)
+
+    const newStartList: TList = {
+      ...startList,
+      cards: newStartListCards,
+      cardsOrder: newStartListCardsOrder,
+    }
+
+    // -> Adding the card to the new list
+    const endList: TList = board.lists[endId]
+
+    const newEndListCards = {
+      ...endList.cards,
+      [cardId]: {
+        ...board.lists[startId].cards[cardId],
+      },
+    }
+
+    const newEndListCardsOrder = Array.from(endList.cardsOrder)
+
+    newEndListCardsOrder.splice(destination.index, 0, cardId)
+
+    const newEndList: TList = {
+      ...endList,
+      cards: newEndListCards,
+      cardsOrder: newEndListCardsOrder,
+    }
+
+    const newBoard = {
+      ...board,
+      lists: {
+        ...board.lists,
+        [startId]: newStartList,
+        [endId]: newEndList,
+      },
+    }
+    updateBoard(newBoard)
   }
 
   return (

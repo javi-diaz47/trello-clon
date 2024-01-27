@@ -15,6 +15,7 @@ interface BoardContext {
   removeCard: (listId: ListId, cardId: CardId) => void
   updateCard: (listId: ListId, card: PartialWithId<Card>) => void
   updateCardsOrder: (listId: ListId, newCardsOrder: CardId[]) => void
+  updateBoard: (updateBoard: PartialWithId<Board>) => void
 }
 
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
@@ -25,6 +26,14 @@ export const BoardContextProvider = ({
   children: React.ReactNode
 }) => {
   const [board, setBoard] = useState<Board>(BOARDS)
+
+  const updateBoard = (updateBoard: PartialWithId<Board>) => {
+    const newBoard = {
+      ...board,
+      ...updateBoard,
+    }
+    setBoard(newBoard)
+  }
 
   const updateList = (newList: PartialWithId<List>) => {
     const newBoard = {
@@ -39,9 +48,6 @@ export const BoardContextProvider = ({
     }
 
     setBoard(newBoard)
-
-    console.log('NEWWWWWW')
-    console.log(newBoard)
   }
 
   const updateCard = (listId: ListId, card: PartialWithId<Card>) => {
@@ -153,6 +159,7 @@ export const BoardContextProvider = ({
         removeCard,
         updateCard,
         updateCardsOrder,
+        updateBoard,
       }}>
       {children}
     </BoardContext.Provider>
