@@ -1,4 +1,5 @@
 import { BOARDS } from '@/mocks/BOARDS'
+import { genUUID } from '@/utils/genUUID'
 import Link from 'next/link'
 
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
             </div>
           ))}
           <div className="min-w-32 bg-neutral-900 rounded-lg text-lg flex items-center p-2">
-            <button>Create new Board</button>
+            <Link href={`boards/Board-${genUUID()}`}>Create new Board</Link>
           </div>
         </section>
       </div>

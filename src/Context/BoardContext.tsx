@@ -1,5 +1,6 @@
 'use client'
 
+import { useLocalStorage } from '@/Hooks/useLocalStorage'
 import { BOARDS } from '@/mocks/BOARDS'
 import {
   Board,
@@ -11,7 +12,7 @@ import {
   PartialWithId,
 } from '@/types/app'
 import { genUUID } from '@/utils/genUUID'
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 interface BoardContext {
   board: Board
@@ -26,6 +27,13 @@ interface BoardContext {
   updateBoard: (updateBoard: PartialWithId<Board>) => void
 }
 
+const DEFAULT_BOARD: Board = {
+  id: 'Board-',
+  title: '',
+  lists: {},
+  listsOrder: [],
+}
+
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
 
 export const BoardContextProvider = ({
@@ -35,7 +43,38 @@ export const BoardContextProvider = ({
   id: BoardId
   children: React.ReactNode
 }) => {
-  const [board, setBoard] = useState<Board>(BOARDS.boards[id])
+  const {
+    state: board,
+    getItem,
+    saveItem: setBoard,
+  } = useLocalStorage<Board>(id, DEFAULT_BOARD)
+
+  useEffect(() => {
+    // Fetch
+    const getBoardFromAPI = (id: BoardId): Board | undefined => {
+      return BOARDS.boards[id]
+    }
+
+    let newBoard = getBoardFromAPI(id)
+
+    if (newBoard) {
+      setBoard(newBoard)
+      return
+    }
+
+    // If not found then search in local
+    newBoard = getItem()
+
+    if (newBoard) {
+      setBoard(newBoard)
+      return
+    }
+
+    // If not found then create a new board
+    setBoard({ ...board, id, title: 'Board name' })
+  }, [])
+
+  // saveItem(BOARDS.boardsOrder.map((id) => BOARDS.boards[id]))
 
   const updateBoard = (updateBoard: PartialWithId<Board>) => {
     const newBoard = {
