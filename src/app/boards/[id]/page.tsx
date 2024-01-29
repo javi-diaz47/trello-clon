@@ -14,10 +14,10 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <Suspense fallback={<Loading />}>
-      <BoardContextProvider id={params.id as BoardId}>
+    <BoardContextProvider id={params.id as BoardId}>
+      <Suspense fallback={<Loading />}>
         <Board />
-      </BoardContextProvider>
-    </Suspense>
+      </Suspense>
+    </BoardContextProvider>
   )
 }

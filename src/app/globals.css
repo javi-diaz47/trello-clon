@@ -25,3 +25,13 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.nav-icon {
+  width: 1.85rem;
+  fill: #757575;
+}
+
+.nav-icon-active,
+.nav-icon:hover {
+  fill: #fafafa;
+}
