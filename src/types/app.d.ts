@@ -57,3 +57,7 @@ export interface Icon {
 export type PartialWithId<T extends { id: Id<Prefixes> }> = Partial<T> & {
   id: T.id
 }
+
+export interface NavbarIcon {
+  isActive: boolean
+}
