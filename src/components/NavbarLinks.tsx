@@ -37,14 +37,26 @@ const NAVBAR_LINKS: NavbarLink[] = [
 
 export const NavbarLinks = () => {
   const path = usePathname()
-
   return (
     <>
-      {NAVBAR_LINKS.map(({ href, icon }, i) => (
-        <li key={`${href}-${i}`}>
-          <Link href={href}>{icon(path.startsWith(href))}</Link>
-        </li>
-      ))}
+      {NAVBAR_LINKS.map(({ href, icon }, i) => {
+        let isActive = false
+
+        if (href !== '/') {
+          isActive = path.startsWith(href)
+        }
+
+        // if URL: / or /boards then the home icon should be highlighted
+        if ((href === '/' && path.startsWith('/boards')) || path === href) {
+          isActive = true
+        }
+
+        return (
+          <li key={`${href}-${i}`}>
+            <Link href={href}>{icon(isActive)}</Link>
+          </li>
+        )
+      })}
     </>
   )
 }
