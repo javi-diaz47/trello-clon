@@ -3,6 +3,7 @@ function DotsIcon() {
     <svg
       width="24"
       height="24"
+      className="fill-blue-500 hover:fill-red-500"
       viewBox="0 0 24 24"
       strokeWidth="2"
       stroke="currentColor"
