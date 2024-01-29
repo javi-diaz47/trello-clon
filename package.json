@@ -9,7 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.0.4",
+    "minidenticons": "^4.2.0",
+    "next": "14.1.0",
     "react": "^18",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18"
