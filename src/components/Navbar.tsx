@@ -13,7 +13,7 @@ export function Navbar() {
         <NavbarLinks />
       </ul>
       <footer className="grid justify-center">
-        <div className="w-fit aspect-square grid place-content-center bg-neutral-200 rounded-full border-2 border-transparent hover:border-blue-500">
+        <div className="aspect-square grid place-content-center bg-neutral-200 rounded-full border-2 border-transparent hover:border-blue-500">
           <Avatar username={genUUID()} width={48} height={48} />
         </div>
       </footer>
