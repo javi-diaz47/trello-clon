@@ -11,7 +11,7 @@ interface ButtonAddCard {
 }
 
 function ButtonAddCard({ listId }: ButtonAddCard) {
-  const { addCard } = useBoards()
+  const { dispatcher } = useBoards()
 
   const handleAddCard = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -23,7 +23,7 @@ function ButtonAddCard({ listId }: ButtonAddCard) {
 
     if (!cardTitle) return
 
-    addCard(listId, cardTitle)
+    dispatcher({ type: 'add card', payload: { listId, title: cardTitle } })
     toggleonAdd()
   }
 

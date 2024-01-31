@@ -8,12 +8,13 @@ import {
   Droppable,
 } from 'react-beautiful-dnd'
 import { CardId, List as TList, ListId } from '@/types/app'
+import { useEffect, useState } from 'react'
 
 export default function Board() {
-  const { board, addList, updateCardsOrder, updateBoard } = useBoards()
+  const { board, dispatcher } = useBoards()
 
   const handleClick = () => {
-    addList('new')
+    dispatcher({ type: 'add list', payload: { title: 'new' } })
   }
 
   const onDragEnd = (result: DropResult) => {
@@ -36,7 +37,15 @@ export default function Board() {
 
       newListsOrder.splice(destination.index, 0, draggableId as ListId)
 
-      updateBoard({ id: board.id, listsOrder: newListsOrder })
+      dispatcher({
+        type: 'update board',
+        payload: {
+          newBoard: {
+            id: board.id,
+            listsOrder: newListsOrder,
+          },
+        },
+      })
 
       return
     }
@@ -56,7 +65,13 @@ export default function Board() {
 
       newCardsOrder.splice(destination.index, 0, cardId)
 
-      updateCardsOrder(endId, newCardsOrder)
+      dispatcher({
+        type: 'update cards order',
+        payload: {
+          listId: endId,
+          newCardsOrder,
+        },
+      })
       return
     }
 
@@ -104,8 +119,22 @@ export default function Board() {
         [endId]: newEndList,
       },
     }
-    updateBoard(newBoard)
+
+    dispatcher({
+      type: 'update board',
+      payload: {
+        newBoard,
+      },
+    })
   }
+
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <div className="flex flex-col w-full gap-4 overflow-hidden">

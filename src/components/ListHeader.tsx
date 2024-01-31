@@ -3,7 +3,7 @@
 import { useBoards } from '@/Hooks/useBoards'
 import { DotsIcon } from '@/icons/Dots'
 import { PlusIcon } from '@/icons/PlusIcon'
-import { List } from '@/types/app'
+import { List, PartialWithId } from '@/types/app'
 import { FormEvent, useState } from 'react'
 
 interface ListHeader {
@@ -11,7 +11,7 @@ interface ListHeader {
 }
 
 export function ListHeader({ list }: ListHeader) {
-  const { updateList, removeList } = useBoards()
+  const { dispatcher } = useBoards()
 
   const [onMenu, setOnMenu] = useState(false)
   const [isChangeTitle, setIsChangeTitle] = useState(false)
@@ -23,9 +23,12 @@ export function ListHeader({ list }: ListHeader) {
     }
 
     if (title.length) {
-      const newList = { title: title.trim() }
+      const newList: PartialWithId<List> = { id: list.id, title: title.trim() }
 
-      updateList({ id: list.id, ...newList })
+      dispatcher({
+        type: 'update list',
+        payload: { newList },
+      })
     }
     setIsChangeTitle(false)
   }
@@ -39,7 +42,12 @@ export function ListHeader({ list }: ListHeader) {
   }
 
   const handleRemoveList = () => {
-    removeList(list.id)
+    dispatcher({
+      type: 'remove list',
+      payload: {
+        listId: list.id,
+      },
+    })
   }
 
   return (

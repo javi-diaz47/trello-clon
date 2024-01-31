@@ -3,6 +3,8 @@ import Board from '@/components/Board'
 import { BoardId } from '@/types/app'
 import { Suspense } from 'react'
 import Loading from '../loading'
+import { BOARDS } from '@/mocks/BOARDS'
+import { DEFAULT_BOARD } from '@/utils/constant'
 
 export default function Page({ params }: { params: { id: string } }) {
   if (!params.id.startsWith('Board-')) {
@@ -13,8 +15,11 @@ export default function Page({ params }: { params: { id: string } }) {
     )
   }
 
+  // fetch board
+  const id = params.id as BoardId
+
   return (
-    <BoardContextProvider id={params.id as BoardId}>
+    <BoardContextProvider id={id}>
       <Suspense fallback={<Loading />}>
         <Board />
       </Suspense>
