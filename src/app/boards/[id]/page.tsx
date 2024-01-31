@@ -1,10 +1,11 @@
 import { BoardContextProvider } from '@/Context/BoardContext'
 import Board from '@/components/Board'
-import { BoardId } from '@/types/app'
+import { Board as TBoard, BoardId } from '@/types/app'
 import { Suspense } from 'react'
 import Loading from '../loading'
 import { BOARDS } from '@/mocks/BOARDS'
 import { DEFAULT_BOARD } from '@/utils/constant'
+import { getBoardByIdFromAPI } from '@/api/boards'
 
 export default function Page({ params }: { params: { id: string } }) {
   if (!params.id.startsWith('Board-')) {
@@ -15,11 +16,17 @@ export default function Page({ params }: { params: { id: string } }) {
     )
   }
 
-  // fetch board
+  // fetch board in the db
   const id = params.id as BoardId
 
+  const board = getBoardByIdFromAPI(id)
+
+  if (!board) {
+    return <div>Sorry Board Not Found</div>
+  }
+
   return (
-    <BoardContextProvider id={id}>
+    <BoardContextProvider board={board}>
       <Suspense fallback={<Loading />}>
         <Board />
       </Suspense>

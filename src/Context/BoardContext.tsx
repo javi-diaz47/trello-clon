@@ -16,38 +16,13 @@ interface BoardContext {
 export const BoardContext = createContext<BoardContext | undefined>(undefined)
 
 export const BoardContextProvider = ({
-  id,
+  board,
   children,
 }: {
-  id: BoardId
+  board: Board
   children: React.ReactNode
 }) => {
-  const [state, dispatcher] = useReducer(boardReducer, DEFAULT_BOARD)
-
-  console.log(state)
-
-  useEffect(() => {
-    let newBoard: Board | undefined = BOARDS.boards[id]
-
-    if (newBoard) {
-      dispatcher({
-        type: 'update board',
-        payload: {
-          newBoard,
-        },
-      })
-    }
-
-    newBoard = getItem(id)
-    if (newBoard) {
-      dispatcher({
-        type: 'update board',
-        payload: {
-          newBoard,
-        },
-      })
-    }
-  }, [])
+  const [state, dispatcher] = useReducer(boardReducer, board)
 
   useEffect(() => {
     saveItem(state.id, state)

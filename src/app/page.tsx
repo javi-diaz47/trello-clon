@@ -1,9 +1,13 @@
+'use client'
+import { createNewBoardFromAPI } from '@/api/boards'
 import { Button } from '@/components/ui/button'
 import { BOARDS } from '@/mocks/BOARDS'
+import { BoardId } from '@/types/app'
 import { genUUID } from '@/utils/genUUID'
 import Link from 'next/link'
 
 export default function Home() {
+  const newBoardId: BoardId = `Board-${genUUID()}`
   return (
     <section className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
       <div className="flex flex-col gap-8">
@@ -14,8 +18,12 @@ export default function Home() {
               <Link href={`boards/${id}`}>{id}</Link>
             </Button>
           ))}
-          <Button variant={'default'} size={'lg'} className="text-md">
-            <Link href={`boards/Board-${genUUID()}`}>Create new Board</Link>
+          <Button
+            variant={'default'}
+            size={'lg'}
+            className="text-md"
+            onClick={() => createNewBoardFromAPI(newBoardId)}>
+            <Link href={`boards/Board-${newBoardId}`}>Create new Board</Link>
           </Button>
         </section>
       </div>
