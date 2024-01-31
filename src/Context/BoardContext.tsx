@@ -1,11 +1,8 @@
 'use client'
-
-import { BOARDS } from '@/mocks/BOARDS'
 import { boardReducer } from '@/reducers/boardsReducer'
-import { Board, BoardId } from '@/types/app'
+import { Board } from '@/types/app'
 import { ActionBoard } from '@/types/reducers'
-import { DEFAULT_BOARD } from '@/utils/constant'
-import { getItem, saveItem } from '@/utils/localStorage'
+import { saveItem } from '@/utils/localStorage'
 import { Dispatch, createContext, useEffect, useReducer } from 'react'
 
 interface BoardContext {
