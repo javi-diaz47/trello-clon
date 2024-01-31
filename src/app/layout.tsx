@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/Navbar'
-import { useRouter } from 'next/router'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import { Header } from '@/components/Header'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,16 +19,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="grid grid-cols-[6rem_1fr] w-full h-full min-h-screen  bg-light-white text-text dark:bg-dark-gray dark:text-light-white ">
-          <Navbar />
-
-          <div className="flex flex-col w-full pr-8 gap-4 overflow-hidden">
-            <div className="w-full min-h-[6rem]">
-              <h2 className="text-2xl font-bold">Trello Clon</h2>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+          <main className="grid grid-cols-[6rem_1fr] w-full h-full min-h-screen  bg-light-white text-text dark:bg-dark-gray dark:text-light-white ">
+            <Navbar />
+            <div className="flex flex-col w-full pr-8 gap-4 overflow-hidden">
+              <Header />
+              {children}
             </div>
-            {children}
-          </div>
-        </main>
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   )
