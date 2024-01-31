@@ -9,7 +9,7 @@ export function FolderIcon({ isActive }: NavbarIcon) {
         fill="inherit"
       />
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 1 1 0 1.5h-5a.75.75 0 0 1-.75-.75z"
         fill="transparent"
       />
