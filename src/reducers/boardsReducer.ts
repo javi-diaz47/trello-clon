@@ -64,7 +64,7 @@ export const boardReducer = (state: Board, action: ActionBoard): Board => {
   if (type === 'add list') {
     const { title } = action.payload
     const newList: List = {
-      id: `List-${genUUID()}`,
+      id: genUUID(),
       title,
       cards: {},
       cardsOrder: [],
@@ -83,11 +83,7 @@ export const boardReducer = (state: Board, action: ActionBoard): Board => {
   }
 
   if (type === 'add card') {
-    const { listId, title } = action.payload
-    const newCard: Card = {
-      id: `Card-${genUUID()}`,
-      title,
-    }
+    const { listId, newCard } = action.payload
 
     const newBoard: Board = {
       ...state,

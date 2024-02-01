@@ -7,8 +7,9 @@ import {
   DropResult,
   Droppable,
 } from 'react-beautiful-dnd'
-import { CardId, List as TList, ListId } from '@/types/app'
+import { List as TList } from '@/types/app'
 import { useEffect, useState } from 'react'
+import { UUID } from 'crypto'
 
 export default function Board() {
   const { board, dispatcher } = useBoards()
@@ -35,7 +36,7 @@ export default function Board() {
 
       newListsOrder.splice(source.index, 1)
 
-      newListsOrder.splice(destination.index, 0, draggableId as ListId)
+      newListsOrder.splice(destination.index, 0, draggableId as UUID)
 
       dispatcher({
         type: 'update board',
@@ -50,9 +51,9 @@ export default function Board() {
       return
     }
 
-    const startId = source.droppableId as ListId
-    const endId = destination.droppableId as ListId
-    const cardId = draggableId as CardId
+    const startId = source.droppableId as UUID
+    const endId = destination.droppableId as UUID
+    const cardId = draggableId as UUID
 
     // Move a card in the same list
 
@@ -139,8 +140,11 @@ export default function Board() {
   return (
     <div className="flex flex-col w-full gap-4 overflow-hidden">
       <section className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
-        <div>
+        <div className="flex justify-between">
           <h2 className="text-4xl font-bold ">{board.title}</h2>
+          {/* <Button onClick={saveToDB} size={'sm'}>
+            Save
+          </Button> */}
         </div>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId={board.id} type="List" direction="horizontal">

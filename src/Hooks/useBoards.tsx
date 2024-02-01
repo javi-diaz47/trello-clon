@@ -1,5 +1,4 @@
 import { BoardContext } from '@/Context/BoardContext'
-import { BoardId } from '@/types/app'
 import { useContext } from 'react'
 
 function useBoards() {

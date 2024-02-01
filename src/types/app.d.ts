@@ -1,34 +1,22 @@
-const PREFIXES = {
-  board: 'Board',
-  list: 'List',
-  card: 'Card',
-} as const
-
-type Prefixes = (typeof PREFIXES)[keyof typeof PREFIXES]
-
-type Id<P extends Prefixes> = `${P}-${string}`
-
-type BoardId = Id<'Board'>
-type ListId = Id<'List'>
-type CardId = Id<'Card'>
+import { UUID } from 'crypto'
 
 export interface Boards {
-  boards: Record<BoardId, Board>
-  boardsOrder: BoardId[]
+  boards: Record<UUID, Board>
+  boardsOrder: UUID[]
 }
 
 export interface Board {
-  id: BoardId
+  id: UUID
   title: string
-  lists: Record<ListId, List>
-  listsOrder: ListId[]
+  lists: Record<UUID, List>
+  listsOrder: UUID[]
 }
 
 export interface List {
-  id: ListId
+  id: UUID
   title: string
-  cards: Record<CardId, Card>
-  cardsOrder: CardId[]
+  cards: Record<UUID, Card>
+  cardsOrder: UUID[]
 }
 
 export interface Label {
@@ -43,9 +31,9 @@ export interface Activity {
 }
 
 export interface Card {
-  id: CardId
+  id: UUID
   title: string
-  def?: string
+  desc?: string
   labels?: Label[]
   activity?: Activity[]
 }
@@ -54,7 +42,7 @@ export interface Icon {
   className?: string
 }
 
-export type PartialWithId<T extends { id: Id<Prefixes> }> = Partial<T> & {
+export type PartialWithId<T extends { id: UUID }> = Partial<T> & {
   id: T.id
 }
 

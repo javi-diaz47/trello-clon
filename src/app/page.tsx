@@ -2,12 +2,12 @@
 import { createNewBoardFromAPI } from '@/api/boards'
 import { Button } from '@/components/ui/button'
 import { BOARDS } from '@/mocks/BOARDS'
-import { BoardId } from '@/types/app'
 import { genUUID } from '@/utils/genUUID'
+import { UUID } from 'crypto'
 import Link from 'next/link'
 
 export default function Home() {
-  const newBoardId: BoardId = `Board-${genUUID()}`
+  const newBoardId = genUUID() as UUID
   return (
     <section className="w-full h-[calc(100vh-10rem)] p-8 grid gap-8 bg-light-gray rounded-3xl mr-16">
       <div className="flex flex-col gap-8">

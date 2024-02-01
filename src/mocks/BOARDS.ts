@@ -1,25 +1,25 @@
-import { Board, BoardId, Boards } from '../types/app'
+import { Board, Boards } from '../types/app'
 
 const BOARD_1: Board = {
-  id: 'Board-1',
+  id: 'f3a1b02d-069d-4ef4-b5f9-215c5d88f1f3',
   title: 'To do App',
   lists: {
-    'List-1': {
-      id: 'List-1',
+    '7ef3471b-f6fb-43c3-8bc2-04b9f1dcba58': {
+      id: '7ef3471b-f6fb-43c3-8bc2-04b9f1dcba58',
       title: 'To do',
       cards: {
-        'Card-1': {
-          id: 'Card-1',
+        '92870f3c-412b-4272-aa43-02a8ebe6affb': {
+          id: '92870f3c-412b-4272-aa43-02a8ebe6affb',
           title: 'Do Laundry',
-          def: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
+          desc: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
           labels: [{ color: 'blue', title: 'home' }],
           activity: [],
         },
 
-        'Card-2': {
-          id: 'Card-2',
+        '6839cb73-5d87-4a78-a2c8-3ae15f48daaa': {
+          id: '6839cb73-5d87-4a78-a2c8-3ae15f48daaa',
           title: 'DB Migration',
-          def: 'To migrate the DB',
+          desc: 'To migrate the DB',
           labels: [{ color: 'red', title: 'backend' }],
           activity: [
             {
@@ -30,10 +30,10 @@ const BOARD_1: Board = {
           ],
         },
 
-        'Card-3': {
-          id: 'Card-3',
+        '53d889cc-9df3-467d-bb3d-43bfb9faed87': {
+          id: '53d889cc-9df3-467d-bb3d-43bfb9faed87',
           title: 'DB Migration',
-          def: 'To migrate the DB',
+          desc: 'To migrate the DB',
           labels: [{ color: 'red', title: 'backend' }],
           activity: [
             {
@@ -44,16 +44,20 @@ const BOARD_1: Board = {
           ],
         },
       },
-      cardsOrder: ['Card-1', 'Card-2', 'Card-3'],
+      cardsOrder: [
+        '92870f3c-412b-4272-aa43-02a8ebe6affb',
+        '6839cb73-5d87-4a78-a2c8-3ae15f48daaa',
+        '53d889cc-9df3-467d-bb3d-43bfb9faed87',
+      ],
     },
-    'List-2': {
-      id: 'List-2',
+    'd4d1110f-3a65-4133-b6b5-65f425d4de37': {
+      id: 'd4d1110f-3a65-4133-b6b5-65f425d4de37',
       title: 'Done',
       cards: {
-        'Card-4': {
-          id: 'Card-4',
+        'a1a70691-b089-46b6-99c9-35d5933e7b1e': {
+          id: 'a1a70691-b089-46b6-99c9-35d5933e7b1e',
           title: 'DB Migration',
-          def: 'To migrate the DB',
+          desc: 'To migrate the DB',
           labels: [{ color: 'red', title: 'backend' }],
           activity: [
             {
@@ -64,24 +68,27 @@ const BOARD_1: Board = {
           ],
         },
       },
-      cardsOrder: ['Card-4'],
+      cardsOrder: ['a1a70691-b089-46b6-99c9-35d5933e7b1e'],
     },
   },
-  listsOrder: ['List-1', 'List-2'],
+  listsOrder: [
+    '7ef3471b-f6fb-43c3-8bc2-04b9f1dcba58',
+    'd4d1110f-3a65-4133-b6b5-65f425d4de37',
+  ],
 }
 
 const BOARD_2: Board = {
-  id: 'Board-2',
+  id: '6df21c62-8479-4ea6-9994-5df76e722aa5',
   title: 'Updated To Do App',
   lists: {
-    'List-3': {
-      id: 'List-3',
+    '5d777710-cc60-47dd-8bc9-cc61e3fa8d28': {
+      id: '5d777710-cc60-47dd-8bc9-cc61e3fa8d28',
       title: 'Doing',
       cards: {
-        'Card-5': {
-          id: 'Card-5',
+        'e554a9cd-2250-4709-b7cc-8ef450f63d0e': {
+          id: 'e554a9cd-2250-4709-b7cc-8ef450f63d0e',
           title: 'Write Code',
-          def: 'Start coding for the new feature',
+          desc: 'Start coding for the new feature',
           labels: [{ color: 'green', title: 'frontend' }],
           activity: [
             {
@@ -92,16 +99,16 @@ const BOARD_2: Board = {
           ],
         },
       },
-      cardsOrder: ['Card-5'],
+      cardsOrder: ['e554a9cd-2250-4709-b7cc-8ef450f63d0e'],
     },
-    'List-4': {
-      id: 'List-4',
+    '27aea1ad-3b38-4db0-80c4-59f9325532f4': {
+      id: '27aea1ad-3b38-4db0-80c4-59f9325532f4',
       title: 'Review',
       cards: {
-        'Card-6': {
-          id: 'Card-6',
+        '5ceb7ce8-4c74-4bb5-9cef-4f709669d115': {
+          id: '5ceb7ce8-4c74-4bb5-9cef-4f709669d115',
           title: 'Code Review',
-          def: 'Review the code changes for QA',
+          desc: 'Review the code changes for QA',
           labels: [{ color: 'purple', title: 'QA' }],
           activity: [
             {
@@ -112,16 +119,22 @@ const BOARD_2: Board = {
           ],
         },
       },
-      cardsOrder: ['Card-6'],
+      cardsOrder: ['5ceb7ce8-4c74-4bb5-9cef-4f709669d115'],
     },
   },
-  listsOrder: ['List-3', 'List-4'],
+  listsOrder: [
+    '5d777710-cc60-47dd-8bc9-cc61e3fa8d28',
+    '27aea1ad-3b38-4db0-80c4-59f9325532f4',
+  ],
 }
 
 export const BOARDS: Boards = {
   boards: {
-    'Board-1': BOARD_1,
-    'Board-2': BOARD_2,
+    'f3a1b02d-069d-4ef4-b5f9-215c5d88f1f3': BOARD_1,
+    '6df21c62-8479-4ea6-9994-5df76e722aa5': BOARD_2,
   },
-  boardsOrder: ['Board-1', 'Board-2'],
+  boardsOrder: [
+    'f3a1b02d-069d-4ef4-b5f9-215c5d88f1f3',
+    '6df21c62-8479-4ea6-9994-5df76e722aa5',
+  ],
 }

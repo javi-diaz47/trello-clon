@@ -3,15 +3,37 @@
 import { useBoards } from '@/Hooks/useBoards'
 import { CloseIcon } from '@/icons/CloseIcon'
 import { PlusIcon } from '@/icons/PlusIcon'
-import { ListId } from '@/types/app'
+import { Card } from '@/types/app'
+import { genUUID } from '@/utils/genUUID'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { UUID } from 'crypto'
 import { useState } from 'react'
 
 interface ButtonAddCard {
-  listId: ListId
+  listId: UUID
 }
 
 function ButtonAddCard({ listId }: ButtonAddCard) {
   const { dispatcher } = useBoards()
+
+  // const supabase = createClientComponentClient()
+
+  // const insertCard = async (card: Card) => {
+  //   const { id, title } = card
+  //   const { data, error } = await supabase.from('card').insert({
+  //     id,
+  //     title,
+  //   })
+
+  //   console.log({ data, error })
+
+  //   const { data: d, error: e } = await supabase.from('ListWithCard').insert({
+  //     list_id: listId,
+  //     card_id: id,
+  //   })
+
+  //   console.log({ d, e })
+  // }
 
   const handleAddCard = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
@@ -21,9 +43,16 @@ function ButtonAddCard({ listId }: ButtonAddCard) {
       cardTitle: string
     }
 
+    const newCardId = genUUID()
+    const newCard: Card = {
+      id: newCardId,
+      title: cardTitle,
+    }
+
     if (!cardTitle) return
 
-    dispatcher({ type: 'add card', payload: { listId, title: cardTitle } })
+    dispatcher({ type: 'add card', payload: { listId, newCard } })
+    // insertCard(newCard)
     toggleonAdd()
   }
 

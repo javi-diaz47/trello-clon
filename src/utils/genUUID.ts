@@ -1,1 +1,3 @@
-export const genUUID = () => crypto.randomUUID()
+import { UUID } from 'crypto'
+
+export const genUUID = (): UUID => crypto.randomUUID() as UUID
