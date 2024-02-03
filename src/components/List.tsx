@@ -1,5 +1,5 @@
-import type { List as TList } from '@/types/app'
-import { Card } from './Card'
+import type { Card, List as TList } from '@/types/app'
+import { KanbanCard } from './Card'
 import { ButtonAddCard } from './ButtonAddCard'
 import {
   Draggable,
@@ -7,6 +7,7 @@ import {
   Droppable,
 } from 'react-beautiful-dnd'
 import { ListHeader } from './ListHeader'
+import { useBoards } from '@/Hooks/useBoards'
 
 interface ListProps {
   list: TList
@@ -40,7 +41,7 @@ function List({ list, isDragging, providedDragHandleProps }: ListProps) {
                       {...provided.dragHandleProps}
                       {...provided.draggableProps}
                       className="mb-4">
-                      <Card card={list.cards[id]} />
+                      <KanbanCard listId={list.id} card={list.cards[id]} />
                     </article>
                   )}
                 </Draggable>

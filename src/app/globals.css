@@ -66,3 +66,13 @@
 .nav-icon:hover {
   @apply fill-primary;
 }
+
+@keyframes animate-in {
+  from {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: #00000075;
+  }
+}
