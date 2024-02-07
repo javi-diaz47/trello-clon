@@ -6,12 +6,11 @@ import {
   DialogContent,
   DialogOverlay,
   DialogPortal,
-  DialogTitle,
   DialogTrigger,
 } from '@radix-ui/react-dialog'
 import { Dialog, DialogFooter, DialogHeader } from './ui/dialog'
 import { useState } from 'react'
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twJoin } from 'tailwind-merge'
 import { Label } from '@radix-ui/react-dropdown-menu'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
@@ -20,6 +19,8 @@ import { UUID } from 'crypto'
 import { EditIcon } from '@/icons/EditIcon'
 import { TextIcon } from '@/icons/TextIcon'
 import { HeadingIcon } from '@/icons/HeadingIcon'
+import { INPUT_STYLE } from '@/utils/constant'
+import { CardLabel } from './CardLabel'
 
 interface CardProps {
   card: TCard
@@ -47,12 +48,8 @@ function KanbanCard({ card, listId }: CardProps) {
       },
     })
 
-    console.log('ne')
     setEdit(false)
   }
-
-  const formStyle =
-    'text-lg border-0 bg-transparent focus-visible:ring-2 focus-visible:bg-background focus-visible:outline-none px-1'
 
   return (
     <Card className="w-full bg-gray-300 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ring-ring">
@@ -73,18 +70,29 @@ function KanbanCard({ card, listId }: CardProps) {
                 !edit && 'animate-out'
               )}
             />
-            <DialogContent className="sm:max-w-md max-h-96 flex w-full h-full bg-accent fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 rounded-md grid gap-2">
-              {/* <DialogHeader></DialogHeader> */}
+            <DialogContent className="sm:max-w-md max-h-[80%] flex flex-col gap-4 w-full h-full bg-accent fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 rounded-md ">
+              <DialogHeader className="text-2xl">
+                Edit card
+                <div className="items-center gap-2">
+                  <span className="text-sm">Labels</span>
+                  <CardLabel
+                    listId={listId}
+                    cardId={card.id}
+                    labels={card.labels}
+                  />
+                </div>
+              </DialogHeader>
               <form className="grid gap-4" onSubmit={onSubmit}>
                 <div className="grid grid-cols-[2rem_1fr] items-center gap-2">
                   <HeadingIcon />
                   <div>
                     <Label className="sr-only">Title</Label>
                     <Input
+                      autoFocus
                       type="text"
                       defaultValue={card.title}
                       name="title"
-                      className={formStyle}
+                      className={INPUT_STYLE}
                     />
                   </div>
                 </div>
@@ -95,7 +103,7 @@ function KanbanCard({ card, listId }: CardProps) {
                     <Textarea
                       name="desc"
                       defaultValue={card.desc}
-                      className={`${formStyle} h-32  resize-none`}
+                      className={`${INPUT_STYLE} h-32  resize-none`}
                     />
                   </div>
                 </div>
