@@ -1,3 +1,4 @@
+import { COLORS } from '@/utils/constant'
 import { Board, Boards } from '../types/app'
 
 const BOARD_1: Board = {
@@ -12,7 +13,7 @@ const BOARD_1: Board = {
           id: '92870f3c-412b-4272-aa43-02a8ebe6affb',
           title: 'Do Laundry',
           desc: 'Seek the clothes, and wash them   Seek the clothes, and wash them  Seek the clothes, and wash them  Seek the clothes, and wash them  ',
-          labels: [{ color: 'blue', title: 'home' }],
+          labels: ['0-0-0-0-0'],
           activity: [],
         },
 
@@ -20,7 +21,7 @@ const BOARD_1: Board = {
           id: '6839cb73-5d87-4a78-a2c8-3ae15f48daaa',
           title: 'DB Migration',
           desc: 'To migrate the DB',
-          labels: [{ color: 'red', title: 'backend' }],
+          labels: ['0-0-0-0-1', '0-0-0-1-0'],
           activity: [
             {
               member: 'me',
@@ -32,9 +33,9 @@ const BOARD_1: Board = {
 
         '53d889cc-9df3-467d-bb3d-43bfb9faed87': {
           id: '53d889cc-9df3-467d-bb3d-43bfb9faed87',
-          title: 'DB Migration',
+          title: 'DB design',
           desc: 'To migrate the DB',
-          labels: [{ color: 'red', title: 'backend' }],
+          labels: ['0-0-0-0-1', '0-0-0-1-0'],
           activity: [
             {
               member: 'me',
@@ -58,7 +59,7 @@ const BOARD_1: Board = {
           id: 'a1a70691-b089-46b6-99c9-35d5933e7b1e',
           title: 'DB Migration',
           desc: 'To migrate the DB',
-          labels: [{ color: 'red', title: 'backend' }],
+          labels: ['0-0-0-0-1', '0-0-0-1-0'],
           activity: [
             {
               member: 'me',
@@ -75,6 +76,11 @@ const BOARD_1: Board = {
     '7ef3471b-f6fb-43c3-8bc2-04b9f1dcba58',
     'd4d1110f-3a65-4133-b6b5-65f425d4de37',
   ],
+  labels: {
+    '0-0-0-0-0': { id: '0-0-0-0-0', color: COLORS.cyan, title: 'home' },
+    '0-0-0-0-1': { id: '0-0-0-0-1', color: COLORS.emerald, title: 'backend' },
+    '0-0-0-1-0': { id: '0-0-0-1-0', color: COLORS.pink, title: 'work' },
+  },
 }
 
 const BOARD_2: Board = {
@@ -89,7 +95,7 @@ const BOARD_2: Board = {
           id: 'e554a9cd-2250-4709-b7cc-8ef450f63d0e',
           title: 'Write Code',
           desc: 'Start coding for the new feature',
-          labels: [{ color: 'green', title: 'frontend' }],
+          labels: [],
           activity: [
             {
               member: 'you',
@@ -109,7 +115,7 @@ const BOARD_2: Board = {
           id: '5ceb7ce8-4c74-4bb5-9cef-4f709669d115',
           title: 'Code Review',
           desc: 'Review the code changes for QA',
-          labels: [{ color: 'purple', title: 'QA' }],
+          labels: [],
           activity: [
             {
               member: 'you',
@@ -126,6 +132,11 @@ const BOARD_2: Board = {
     '5d777710-cc60-47dd-8bc9-cc61e3fa8d28',
     '27aea1ad-3b38-4db0-80c4-59f9325532f4',
   ],
+  labels: {
+    '0-0-0-0-0': { id: '0-0-0-0-0', color: COLORS.cyan, title: 'home' },
+    '0-0-0-0-1': { id: '0-0-0-0-1', color: COLORS.emerald, title: 'backend' },
+    '0-0-0-1-0': { id: '0-0-0-1-0', color: COLORS.pink, title: 'work' },
+  },
 }
 
 export const BOARDS: Boards = {
