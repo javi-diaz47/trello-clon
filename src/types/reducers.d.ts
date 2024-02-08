@@ -1,5 +1,5 @@
 import { UUID } from 'crypto'
-import { Board, Card, List, PartialWithId } from './app'
+import { Board, Card, Label, List, PartialWithId } from './app'
 
 export type ActionBoard =
   | { type: 'add list'; payload: { title: string } }
@@ -20,3 +20,5 @@ export type ActionBoard =
       payload: { listId: UUID; newCardsOrder: UUID[] }
     }
   | { type: 'update board'; payload: { newBoard: PartialWithId<Board> } }
+  | { type: 'udpate labels'; payload: { newLabel: Label } }
+  | { type: 'add label to board'; payload: { newLabel: Label } }

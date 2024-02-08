@@ -42,6 +42,17 @@ export const boardReducer = (state: Board, action: ActionBoard): Board => {
     return newBoard
   }
 
+  if (type === 'udpate labels') {
+    const { newLabel } = action.payload
+
+    const newBoard: Board = { ...state }
+    const oldLabel = newBoard.labels[newLabel.id]
+
+    newBoard.labels[newLabel.id] = { ...oldLabel, ...newLabel }
+
+    return newBoard
+  }
+
   if (type === 'update lists order') {
     const { newListsOrder } = action.payload
 
@@ -95,6 +106,16 @@ export const boardReducer = (state: Board, action: ActionBoard): Board => {
     }
 
     newBoard.lists[listId].cardsOrder.push(newCard.id)
+
+    return newBoard
+  }
+
+  if (type === 'add label to board') {
+    const { newLabel } = action.payload
+
+    const newBoard = { ...state }
+
+    newBoard.labels[newLabel.id] = newLabel
 
     return newBoard
   }
