@@ -10,18 +10,29 @@ import { Button } from './ui/button'
 import { twMerge } from 'tailwind-merge'
 import { useState } from 'react'
 import { COLORS } from '@/utils/constant'
+import { Label } from '@/types/app'
+import { useBoards } from '@/Hooks/useBoards'
 
 interface CardLabel {
-  initialBg: string
-  title: string
+  label: Label
 }
 
-export function CardLabelPill({ initialBg, title }: CardLabel) {
-  const [bg, setBg] = useState(initialBg)
+export function CardLabelPill({ label }: CardLabel) {
+  const { dispatcher } = useBoards()
+  const [bg, setBg] = useState(label.color)
 
-  const onChangeBg = (bg: string) => {
-    console.log(bg)
-    setBg(bg)
+  const onChangeBg = (newBg: string) => {
+    dispatcher({
+      type: 'udpate labels',
+      payload: {
+        newLabel: {
+          ...label,
+          color: newBg,
+        },
+      },
+    })
+
+    setBg(newBg)
   }
 
   return (
@@ -30,7 +41,7 @@ export function CardLabelPill({ initialBg, title }: CardLabel) {
         <Button
           size="sm"
           className={twMerge(bg, 'rounded-full px-2 py-1 text-sm')}>
-          {title}
+          {label.title}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

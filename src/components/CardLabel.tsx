@@ -1,5 +1,5 @@
 import { useBoards } from '@/Hooks/useBoards'
-import type { Label as TLabel } from '@/types/app'
+import type { Board, Label as TLabel } from '@/types/app'
 import { COLORS, INPUT_STYLE } from '@/utils/constant'
 import { UUID } from 'crypto'
 import React, { useState } from 'react'
@@ -7,15 +7,26 @@ import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { twMerge } from 'tailwind-merge'
 import { CardLabelPill } from './CardLabelPill'
+import { genUUID } from '@/utils/genUUID'
+
+/*
+  *********************
+  NOTE:
+  Adds labels to the BOARD as another array
+   1. MODIFY the data structure of a board --
+   2. ADD an ID to the Label type
+   3. REFERENCE the label id inside the cards that has a label0w
+  **********************
+*/
 
 interface CardLabel {
   listId: UUID
   cardId: UUID
-  labels: TLabel[] | undefined
+  labels: UUID[] | undefined
 }
 
 export function CardLabel({ labels, cardId, listId }: CardLabel) {
-  const { dispatcher } = useBoards()
+  const { board, dispatcher } = useBoards()
 
   const [label, setLabel] = useState('')
 
@@ -27,9 +38,11 @@ export function CardLabel({ labels, cardId, listId }: CardLabel) {
   const onAddLabel = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
 
-    const newLabels: TLabel[] = Array.from(labels || [])
+    const id = genUUID()
+    const newLabel: TLabel = { id, title: label, color: COLORS.blue }
 
-    newLabels.push({ color: COLORS.blue, title: label })
+    const newLabelsId: UUID[] = Array.from(labels || [])
+    newLabelsId.push(id)
 
     dispatcher({
       type: 'update card',
@@ -37,21 +50,31 @@ export function CardLabel({ labels, cardId, listId }: CardLabel) {
         listId,
         card: {
           id: cardId,
-          labels: newLabels,
+          labels: newLabelsId,
         },
+      },
+    })
+
+    dispatcher({
+      type: 'add label to board',
+      payload: {
+        newLabel,
       },
     })
   }
 
   return (
     <div className="flex gap-2 flex-wrap items-center">
-      {labels?.map(({ color, title }, i) => (
-        <CardLabelPill
-          key={`${color}-${title}-${i}`}
-          title={title}
-          initialBg={color}
-        />
-      ))}
+      {labels?.map((id, i) => {
+        const label = board.labels[id]
+
+        return (
+          <CardLabelPill
+            key={`${label.color}-${label.title}-${i}`}
+            label={label}
+          />
+        )
+      })}
       <form onSubmit={onAddLabel}>
         <Label className="sr-only">Title</Label>
         <Input
