@@ -56,7 +56,7 @@ function KanbanCard({ card, listId }: CardProps) {
       <CardHeader className="grid grid-flow-col items-center justify-between py-4 space-y-0">
         <h2 className="text-xl font-bold">{card.title}</h2>
         <Dialog open={edit} onOpenChange={() => setEdit(!edit)}>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button variant="ghost" size="icon">
               <EditIcon />
               <span className="sr-only">Edit card</span>
