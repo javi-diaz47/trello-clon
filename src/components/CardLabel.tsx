@@ -8,6 +8,9 @@ import { Input } from './ui/input'
 import { twMerge } from 'tailwind-merge'
 import { CardLabelPill } from './CardLabelPill'
 import { genUUID } from '@/utils/genUUID'
+import { Button } from './ui/button'
+
+import { CardAddLabel } from './CardAddLabel'
 
 /*
   *********************
@@ -28,40 +31,67 @@ interface CardLabel {
 export function CardLabel({ labels, cardId, listId }: CardLabel) {
   const { board, dispatcher } = useBoards()
 
+  // const [label, setLabel] = useState('')
+
   const [label, setLabel] = useState('')
 
-  const onChangeLabel = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const newLabel = ev.currentTarget.value
-    setLabel(newLabel)
-  }
+  // const onChangeBg = (newBg: string) => {
+  //   const newLabel: TLabel = { ...label, color: newBg }
+
+  //   dispatcher({
+  //     type: 'udpate labels',
+  //     payload: {
+  //       newLabel: {
+  //         ...label,
+  //         color: newBg,
+  //       },
+  //     },
+  //   })
+
+  //   setLabel(newLabel)
+  // }
+
+  // const onChangeLabel = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newLabel: TLabel = { ...label, title: ev.currentTarget.value }
+  //   setLabel(newLabel)
+  // }
 
   const onAddLabel = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-
-    const id = genUUID()
-    const newLabel: TLabel = { id, title: label, color: COLORS.blue }
-
-    const newLabelsId: UUID[] = Array.from(labels || [])
-    newLabelsId.push(id)
-
-    dispatcher({
-      type: 'update card',
-      payload: {
-        listId,
-        card: {
-          id: cardId,
-          labels: newLabelsId,
-        },
-      },
-    })
-
-    dispatcher({
-      type: 'add label to board',
-      payload: {
-        newLabel,
-      },
-    })
   }
+
+  // const onChangeLabel = (ev: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newLabel = ev.currentTarget.value
+  //   setLabel(newLabel)
+  // }
+
+  // const onAddLabel = (ev: React.FormEvent<HTMLFormElement>) => {
+  //   ev.preventDefault()
+
+  //   const id = genUUID()
+  //   const newLabel: TLabel = { id, title: label, color: COLORS.blue }
+
+  //   const newLabelsId: UUID[] = Array.from(labels || [])
+  //   newLabelsId.push(id)
+
+  //   dispatcher({
+  //     type: 'update card',
+  //     payload: {
+  //       listId,
+  //       card: {
+  //         id: cardId,
+  //         labels: newLabelsId,
+  //       },
+  //     },
+  //   })
+
+  //   dispatcher({
+  //     type: 'add label to board',
+  //     payload: {
+  //       newLabel,
+  //     },
+  //   })
+  // }
 
   return (
     <div className="flex gap-2 flex-wrap items-center">
@@ -71,11 +101,14 @@ export function CardLabel({ labels, cardId, listId }: CardLabel) {
         return (
           <CardLabelPill
             key={`${label.color}-${label.title}-${i}`}
-            label={label}
+            initLabel={label}
           />
         )
       })}
-      <form onSubmit={onAddLabel}>
+
+      <CardAddLabel listId={listId} cardId={cardId} labels={labels} />
+
+      {/* <form onSubmit={onAddLabel}>
         <Label className="sr-only">Title</Label>
         <Input
           type="text"
@@ -85,7 +118,7 @@ export function CardLabel({ labels, cardId, listId }: CardLabel) {
           onChange={onChangeLabel}
           className={twMerge(INPUT_STYLE, 'text-sm h-fit py-1')}
         />
-      </form>
+      </form> */}
     </div>
   )
 }
